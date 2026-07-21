@@ -1,0 +1,28 @@
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Local (never-commit) knowledge: your own course PDFs / textbooks stay out of git
+copilot/knowledge/**/*.pdf
+copilot/knowledge/**/*.odt
+copilot/knowledge/**/from-courses*/
+
+# AnyLogic working files / model binaries
+*.alp
+*.jar
+*.onnx
+
+# Data & secrets
+*.csv.private
+.env
+
+# Held back from publication for now (pending research sign-off)
+case-study/
