@@ -53,14 +53,6 @@ into the prompt.
 3. Verify the knowledge base any time: `python copilot/scripts/check-knowledge.py`
    (exit 0 = clean; it fails on index drift or broken links).
 
-## What is deliberately not here
-
-- **Copyrighted course material** (university slides, commercial textbooks) was stripped
-  before publishing. [copilot/knowledge/PRIVATE-MATERIALS.md](copilot/knowledge/PRIVATE-MATERIALS.md)
-  lists what was removed and the free, legal replacement for each category.
-- **The hospital case study** (evidence log, configuration snapshot, replicated results)
-  is held back pending research sign-off and will be published separately.
-
 ## Licence
 
 Dual-licensed:
