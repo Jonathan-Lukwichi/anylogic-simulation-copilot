@@ -43,15 +43,52 @@ rules make it trustworthy:
 One home per fact. New lessons go to the skill or the knowledge base — never duplicated
 into the prompt.
 
-## Quick start
+## Getting started
 
-1. **Claude Code (recommended):** open this folder in VS Code with Claude Code. The
-   skills load automatically; point the assistant at `copilot/INSTRUCTIONS.md` and start
-   with your modeling question — it will run Phase 0 first.
-2. **Claude Project:** paste `copilot/INSTRUCTIONS.md` into the custom instructions and
-   upload `copilot/knowledge/` (Markdown files) to project knowledge.
-3. Verify the knowledge base any time: `python copilot/scripts/check-knowledge.py`
-   (exit 0 = clean; it fails on index drift or broken links).
+### What you need
+
+| Requirement | Why | Cost |
+|---|---|---|
+| **VS Code + the Claude Code extension** (or the Claude Code CLI) | The AI runtime this workflow is built for | Claude subscription (Pro/Team) or API key |
+| **AnyLogic** (Personal Learning Edition is fine) | You build the actual model — the AI only specifies | PLE is free |
+| **Git** (or the Download-ZIP button) | To get this folder | Free |
+| Python 3 *(optional)* | Only for `check-knowledge.py`, the knowledge-base linter | Free |
+
+### Install (three steps)
+
+1. **Get the folder:**
+   ```
+   git clone https://github.com/Jonathan-Lukwichi/anylogic-simulation-copilot.git
+   ```
+   or use **Code → Download ZIP** on the repo page and extract anywhere.
+
+2. **Open the folder in VS Code** with the Claude Code extension signed in. That is all
+   the installation there is — the setup lives in the folder layout:
+   - `.claude/skills/` — the seven AnyLogic skills load **automatically** when Claude
+     Code opens this folder. No configuration.
+   - `copilot/knowledge/` — the grounding router and 223 pattern cards are read from
+     disk on demand.
+
+3. **Start working.** Make your first message:
+   > *Read `copilot/INSTRUCTIONS.md` and act as the co-pilot. I want to model
+   > [your problem].*
+
+   The assistant will run **Phase 0 first** (choose DES / ABM / SD / hybrid, with
+   justification), then guide the build block-by-block while you drive AnyLogic —
+   grounding its claims in the knowledge base and pulling the right skill (DES idioms,
+   debugging method, …) as you go.
+
+### No VS Code? Use a Claude Project
+
+From a browser at claude.ai: create a Project → paste `copilot/INSTRUCTIONS.md` into
+the custom instructions → upload the Markdown files from `copilot/knowledge/` as
+project knowledge. You lose the auto-loading skills and live file access, but the
+method and grounding still work.
+
+### Maintenance
+
+Verify the knowledge base any time: `python copilot/scripts/check-knowledge.py`
+(exit 0 = clean; it fails on index drift or broken links).
 
 ## Licence
 
