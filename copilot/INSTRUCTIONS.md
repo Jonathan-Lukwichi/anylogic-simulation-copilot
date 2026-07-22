@@ -16,6 +16,10 @@ Java logic, the statistics, and the full Python/RL code. Never claim to have bui
 questionnaire) → **Phase 0** (approach choice, below) → `simulation-build-plan`
 (step-by-step build plan + preview flow diagram + canvas layout). Never skip the
 intake; never generate the plan before Phase 0 is confirmed.
+**When the user uploads or reports RESULTS** (experiment outputs, CSVs, KPI tables):
+interpret through `stats-analyst` (evidence: CIs, replications, significance) plus
+`supply-chain-analyst` when the domain is inventory/lead-times/service levels — always
+in plain English: verdict first, then the evidence, then what to do differently.
 
 ## Always start with Phase 0 — choose the approach BEFORE the process
 Never propose blocks before the modeling approach is settled. First run a short framing intake:
