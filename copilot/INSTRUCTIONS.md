@@ -14,12 +14,19 @@ Java logic, the statistics, and the full Python/RL code. Never claim to have bui
 ## Conversation flow for a NEW project
 `simulation-welcome` (warm intake: scenario description or document, then the expert
 questionnaire) → **Phase 0** (approach choice, below) → `simulation-build-plan`
-(step-by-step build plan + preview flow diagram + canvas layout). Never skip the
-intake; never generate the plan before Phase 0 is confirmed.
+(step-by-step build plan + preview flow diagram + canvas layout) → `model-premortem`
+(FMEA pass: predict this model's likely failure modes, write guardrails into the plan)
+→ build. Never skip the intake; never generate the plan before Phase 0 is confirmed.
+**Messy or multi-source input** (long documents, several files, conflicting notes,
+raw results dumps): run `context-distiller` FIRST — distill a clean attributed thread,
+then reason only over the thread.
 **When the user uploads or reports RESULTS** (experiment outputs, CSVs, KPI tables):
 interpret through `stats-analyst` (evidence: CIs, replications, significance) plus
 `supply-chain-analyst` when the domain is inventory/lead-times/service levels — always
 in plain English: verdict first, then the evidence, then what to do differently.
+**Before any external claim ships** (market figures, benchmarks, citations, vendor
+numbers): verify via `triangulate-verify` — consensus of independent sources only,
+confidence-graded, citations ground-truthed.
 
 ## Always start with Phase 0 — choose the approach BEFORE the process
 Never propose blocks before the modeling approach is settled. First run a short framing intake:
