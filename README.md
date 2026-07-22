@@ -30,7 +30,7 @@ rules make it trustworthy:
 | Path | What it is |
 |---|---|
 | [copilot/](copilot/) | The product: system prompt ([INSTRUCTIONS.md](copilot/INSTRUCTIONS.md)), knowledge base + grounding router ([knowledge/INDEX.md](copilot/knowledge/INDEX.md)), the Phase 0→6 method ([workflow/](copilot/workflow/)), templates, worked example briefs, and maintenance scripts |
-| [.claude/skills/](.claude/skills/) | Seven AnyLogic skills (DES, ABM, SD, 2D, 3D, libraries, debug) encoding idioms and root-caused bugs from real builds. The debug skill **self-updates**: every new root cause is recorded, so the system sharpens with use |
+| [.claude/skills/](.claude/skills/) | Nine skills: seven AnyLogic skills (DES, ABM, SD, 2D, 3D, libraries, debug) encoding idioms and root-caused bugs from real builds, plus `simulation-welcome` (guided project intake) and `simulation-build-plan` (step-by-step build plan with a preview flow diagram and canvas layout). The debug skill **self-updates**: every new root cause is recorded, so the system sharpens with use |
 | [docs/adr/](docs/adr/) | Architecture decision records (tooling choice; the single-grounding-router design) |
 
 ## Where each kind of knowledge lives (the contract)
