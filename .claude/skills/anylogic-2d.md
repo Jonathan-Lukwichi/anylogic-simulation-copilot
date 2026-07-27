@@ -64,6 +64,11 @@ toggle: **static value ↔ expression re-evaluated continuously**.
 - Charts (Analysis palette): Plot = DataSet vs index; Time Plot = value vs sim time; Bar = few
   categories; match paired chart sizes exactly.
 
+## Known gotcha: no arrowheads on Line (8.9)
+The Line element has NO arrow property in AnyLogic 8.9 (Appearance = color/width/style only).
+Flow-diagram arrowheads: static Text glyph `▶` (same colour as the line, ~10-12pt) at the
+line's destination end; copy line+glyph as a pair. Or a small closed filled Polyline triangle.
+
 ## Text-in-card discipline
 Text is a separate element from its card: place at cardX+10 / cardY+10, left-aligned; overflow →
 shrink font to ~10 or widen ALL cards of that row equally (uniformity beats fit).
