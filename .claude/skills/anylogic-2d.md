@@ -64,6 +64,14 @@ toggle: **static value ↔ expression re-evaluated continuously**.
 - Charts (Analysis palette): Plot = DataSet vs index; Time Plot = value vs sim time; Bar = few
   categories; match paired chart sizes exactly.
 
+## Flow-arrow grammar: trunk-and-branch (adopted standard)
+For flow diagrams over zone layouts, EVERY zone gets a visible connection without spaghetti:
+- Fan-out: source -> one vertical trunk Line beside the column -> short branch stub + arrowhead
+  into EACH zone. Fan-in: plain merge stubs -> collector trunk -> ONE arrowhead into the destination.
+- Grammar rule: arrowhead ONLY where flow ENTERS a zone. Splits: head on every branch.
+  Merges: plain stubs, one head at the destination. (A head at a merge point reads as a destination.)
+- One-arrow-per-column shorthand confuses readers ("where does ORTHO connect?") - don't use it.
+
 ## Known gotcha: no arrowheads on Line (8.9)
 The Line element has NO arrow property in AnyLogic 8.9 (Appearance = color/width/style only).
 Flow-diagram arrowheads: static Text glyph `▶` (same colour as the line, ~10-12pt) at the
