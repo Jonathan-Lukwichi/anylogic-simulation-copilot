@@ -11,7 +11,7 @@ No ResourcePool or staff agents. Capacity is governed by the physical length of 
 
 ## Key settings worth copying
 - **Time unit:** Seconds
-- **Reversible conveyor flag:** each Convey block that acts as the spur has its `reversible` property enabled, allowing runtime direction reversal
+- **Reversible conveyor flag:** *(corrected 2026-09-28 against Help 8.9.9)* reversibility is a property of the **conveyor markup** (the spur conveyor is marked Reversible), not of the Convey block; direction is switched at runtime with the conveyor's `setDirection()` / `changeDirection()`. When the conveyor reverses, the items on it leave their Convey block through its **`outRedirect`** port (its *On cancel* action fires) — wire that port to another Convey with a new destination, or back into the same one
 - **Priority parameter** on ConveyorPathDescriptor controls which path wins when an item arrives at the intersection
 - **PositionOnConveyor markup elements** (spurEnter, spurExit) carry custom Java code — direction changes and block/unblock calls live here, not in the flowchart blocks
 - **Guard condition:** direction cannot flip while any item is mid-transfer; code checks `spurEnter.getAgent() != null` before switching

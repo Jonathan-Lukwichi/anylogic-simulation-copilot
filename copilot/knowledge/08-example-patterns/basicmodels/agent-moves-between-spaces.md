@@ -13,7 +13,7 @@ PedSource → PedGoTo (waiting area) → PedWait → PedGoTo (platform) → PedE
 **Train / vehicle flow:**
 Source (one train agent) → Wait (hold at station during boarding) → Pickup (collect all boarded passengers) → MoveTo (GIS destination node — depart) → MoveTo (return station node) → Dropoff (release passengers back to pedestrian space) → Enter (back into station logic) → Sink
 
-The two flows are coupled: the train's Pickup triggers the pedestrian PedEnter, and its Dropoff triggers PedExit, so passengers physically travel inside the train agent rather than independently.
+The two flows are coupled: the train's Pickup triggers the pedestrian PedEnter, and its Dropoff triggers PedExit, so passengers physically travel inside the train agent rather than independently. *(Unverified 2026-09-28: AnyLogic does not move an agent directly between spaces — it must leave one flow/space before entering another (Help 8.9.9, troubleshooting). The usual order for walkers riding a vehicle is PedExit → Queue → Pickup … Dropoff → PedEnter (`../videos/rail-shuttle-pedestrian-boarding.md`); the order above holds only if the train has its own interior pedestrian space. The example model was not available offline — confirm the direction in AnyLogic before copying it.)*
 
 ## Resources
 

@@ -14,9 +14,9 @@ Three independent Source blocks feed three separate Convey segments (feeder lane
 
 ## Key settings worth copying
 - **Time unit:** seconds
-- **Priority parameter on ConveyorSpur:** integer field (lower value = higher merge priority); toggling this at runtime re-routes flow without stopping the model
+- **Merge priority on the incoming conveyors:** *(corrected 2026-09-28 against Help 8.9.9, markup/conveyor)* priority is a property of each conveyor that feeds the junction — not of the spur — and the conveyor with the **greater** Priority value wins the merge; ticking *Maximum priority* makes a conveyor beat all connected ones. Changing the values at runtime re-balances the merge without stopping the model
 - **Rate (arrival rate):** configured per Source block; supports `rate`, `rateSchedule`, and `rateExpression` modes — use `rateExpression` to make arrival vary with simulation time
-- **removeFromConveyor flag on Convey:** controls whether an item is physically lifted off a feeder belt before being placed on the magistral, important for avoiding double-occupancy errors
+- **removeFromConveyor flag on Convey:** *(corrected 2026-09-28)* this is the Java name of Convey's *Leave conveyor on exit* — it takes the item off the conveyor network when it reaches that block's target (tick it on the final Convey before a Sink or a holding block, gotcha G42); it is not a feeder-to-main hand-off setting
 - **sourcePositionOnConveyor / targetPositionOnConveyor:** specify the exact belt offset (metres) where a spur handoff occurs — set these to match the physical gap between belts
 
 ## KPIs instrumented
@@ -25,4 +25,4 @@ Three independent Source blocks feed three separate Convey segments (feeder lane
 - Queue build-up on feeder lanes visible via conveyor occupancy animation
 
 ## Reusable idea
-The transferable trick is **runtime priority flipping on ConveyorSpur**: by exposing a single integer priority parameter per spur and wiring it to a UI control or schedule, you can dynamically rebalance which feeder lane dominates the merge point without halting the simulation. This pattern applies any time you need to model a merging junction (assembly line confluence, port gate allocation, road on-ramp merging) where priority rules must change mid-run to test different policies.
+The transferable trick is **runtime priority flipping at a merge**: by exposing one priority value per feeding conveyor (higher wins) and wiring it to a UI control or schedule, you can dynamically rebalance which feeder lane dominates the merge point without halting the simulation. This pattern applies any time you need to model a merging junction (assembly line confluence, port gate allocation, road on-ramp merging) where priority rules must change mid-run to test different policies.

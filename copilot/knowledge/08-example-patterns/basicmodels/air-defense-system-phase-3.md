@@ -25,7 +25,7 @@ Agent links (bidirectional `COLLECTION_OF_LINKS`) connect Main to Bombers, Bombe
 - **Mission interval:** cyclic event with `uniform(5, 12)` second recurrence — introduces stochastic spacing between bomber waves
 - **Agent speed:** default 10 m/s for all mobile agents (overridable per agent type)
 - **Spatial movement:** `moveTo(x, y, z)` in statechart entry actions drives continuous 3D navigation; arrival triggers the next statechart transition automatically
-- **Message passing:** `deliver("You are destroyed", target)` is the sole inter-agent communication mechanism — lightweight, event-driven, no shared queues needed
+- **Message passing:** `deliver("You are destroyed", target)` is the sole inter-agent communication mechanism — lightweight, event-driven, no shared queues needed. *(Note 2026-09-28: `deliver()` is deprecated since AnyLogic 8.9.2 — use `send(...)`, which delivers in a separate zero-time event rather than immediately; see gotcha G24.)*
 - **Target assignment guard:** the mission loop checks both `bomber.target == bldg` (already assigned) and `bldg.destroyed` (already hit) before spawning a new bomber — prevents duplicate work
 - **3D visuals:** `.dae` mesh files (house, bomber, bomb, fire) attached to each agent type; fire mesh visibility gated on `destroyed` flag
 

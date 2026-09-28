@@ -7,7 +7,7 @@
 Containers arrive at a Source and pass through a Delay (representing stacking/staging time). A SelectOutput block routes each container to one of two parallel handling sub-chains depending on the active dispatch strategy. Each sub-chain follows: SeizeTransporter (grab an AGV) → MoveByCrane (blue or red bridge picks up the container) → SeizeTransporter (confirm AGV ready at drop point) → MoveByTransporter (AGV carries load away) → MoveByCrane (bridge returns or repositions) → Sink. In the shared-queue variant a third sub-chain uses a single SeizeTransporter named `seizeNearestAGV`; a custom condition checks which bridge is geometrically closer to the waiting container and assigns it dynamically.
 
 ## Resources
-- Two overhead crane bridges (blue bridge, red bridge) modelled as crane transporters on a shared overhead path network.
+- Two overhead crane bridges (blue bridge, red bridge) modelled as crane transporters on a shared overhead path network. *(Check 2026-09-28: in AnyLogic 8.9.9 a multi-bridge crane is normally **one Overhead Crane element with Number of bridges = 2**, the bridges moving in automatic mode by default (Help 8.9.9, overhead crane markup) — which also explains the automatic conflict avoidance below. The example model itself was not available offline to confirm how it is built; open it in AnyLogic before copying this detail.)*
 - A fleet of AGVs (`AGV` agent population) that serve as ground-level transporters receiving loaded containers from the crane and carrying them to destination nodes.
 - Each bridge and AGV fleet has an independent capacity parameter; AGV speed is a configurable parameter.
 

@@ -16,7 +16,7 @@ Items (supply requests) are generated at sources with interarrival times drawn f
 - Interarrival: `uniform_discr(15, 20)` seconds — discrete uniform captures scheduling regularity
 - Handling delay: `triangular(5, 10, 15)` seconds; porter task: `triangular(18, 20, 24)` seconds
 - Model time unit: **Second**
-- Lift defined with `floorElevation` and `liftingSpeed` parameters — set per shaft to reflect real building geometry
+- Lift defined with `floorElevation` and `liftingSpeed` parameters — set per shaft to reflect real building geometry. *(Precisely: one Lift element per level; lifting speed, pick-up/drop-off times and the selection pattern are set once on the **main landing**, while Floor elevation is set on **every** landing — see `../videos/multi-level-facility-lift-landings.md` and gotcha G25.)*
 - Multiple floors modelled with the Level markup element; transporters autonomously select lifts by proximity
 
 ## KPIs instrumented

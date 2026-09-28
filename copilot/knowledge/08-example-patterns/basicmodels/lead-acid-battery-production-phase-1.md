@@ -7,7 +7,7 @@
 Electrodes (agent type) are created by a **Source** in bulk arrivals (200 units every 1.5 hours) → placed on a **Conveyor** (Material Handling library `Convey` block) that moves items at 10 m/s along a physical layout path → a **Batch** block collects 100 individual plates into a single `PlatesBatch` agent → the batch exits through a **Sink**. A secondary **Source** feeds a parallel `Batch` that groups plates into a different aggregate, representing a pasting-machine station on the conveyor line.
 
 ## Resources
-No explicit `ResourcePool`/`Seize`/`Release` blocks. Throughput is governed by conveyor speed and batch accumulation time. The pasting machine is represented as a `ConveyorSimpleStationDescriptor` on the conveyor path rather than a resource pool.
+No explicit `ResourcePool`/`Seize`/`Release` blocks. Throughput is governed by conveyor speed and batch accumulation time. The pasting machine is represented as a `ConveyorSimpleStationDescriptor` on the conveyor path rather than a resource pool. *(Note 2026-09-28: in the editor this is the Material Handling Library **Station** markup element placed on the conveyor — `ConveyorSimpleStationDescriptor` is only its internal API name; see `../videos/mhl-conveyor-station-processing-and-reassembly.md`.)*
 
 ## Key settings worth copying
 - **Arrival pattern:** interarrival time = 1.5 hours, 200 entities per arrival (bulk drop onto conveyor)
