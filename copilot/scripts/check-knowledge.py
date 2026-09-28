@@ -20,7 +20,7 @@ import sys
 ROOT = Path(__file__).resolve().parent.parent
 KNOW = ROOT / "knowledge"
 PATTERNS = KNOW / "08-example-patterns"
-SUB = ["basicmodels", "models", "sdmodels"]
+SUB = ["basicmodels", "models", "sdmodels", "videos"]
 
 TITLE_RE = re.compile(r"^#\s*Pattern card\s*[—\-:]\s*(.+?)\s*$", re.M)
 PARADIGM_RE = re.compile(r"-\s*\*\*Paradigm:\*\*", re.M)
