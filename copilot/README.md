@@ -12,15 +12,19 @@ then guides the build, the statistics, and the AI/ML layer.
 - `knowledge/INDEX.md` — **the single grounding router** (task → files). Start here for any task.
 - `SOURCES.md` — the knowledge-base manifest: every source, its URL, and whether to **download** it or **fetch live**.
 - `workflow/` — the method as usable documents (Phase 0 framing, Phases 1-6 build, checklists).
-- `knowledge/` — the curated, downloaded reference core, organised by category. `08-example-patterns/INDEX.md` indexes 223 distilled pattern cards.
+- `knowledge/` — the curated, downloaded reference core, organised by category. `08-example-patterns/INDEX.md` indexes the distilled pattern cards (250+; `videos/` holds techniques distilled from AnyLogic how-to videos and webinars). `01-anylogic-core/anylogic-gotchas.md` is the symptom → fix list, with a quick-lookup table.
 - `templates/` — reusable scaffolds (model spec, distribution fitting, RL pipeline).
 - `examples/` — worked briefs to test the co-pilot (ED patient flow, water-bottle filling).
 - `scripts/` — maintenance tools: `build-pattern-index.py` (regenerate the pattern index),
-  `check-knowledge.py` (lint the KB for consistency), plus update notes.
+  `check-knowledge.py` (lint the KB for consistency), `extract-pdf-text.py` (make the KB's PDFs
+  searchable in a local, gitignored `knowledge/.pdf-text/`), plus update notes.
 - `../.claude/skills/anylogic-*.md` — the battle-tested build/debug idiom skills (DES, ABM, SD,
   2D/3D, libraries, debugging). The workflow owns the *method*; the skills own the *idioms*.
 - `knowledge/PRIVATE-MATERIALS.md` — copyrighted course PDFs were stripped before publishing;
   this file lists what was removed and the free, legal replacement for each category.
+- `../.claude/skills/youtube-transcript/` — Claude Code skill that pulls YouTube transcripts (used to
+  distil AnyLogic videos into `knowledge/08-example-patterns/videos/`; raw transcripts stay local in
+  the gitignored `knowledge/transcripts/`).
 
 ## Set it up (pick one runtime)
 1. **Claude Project (fastest):** create a Project, paste `INSTRUCTIONS.md` into the
