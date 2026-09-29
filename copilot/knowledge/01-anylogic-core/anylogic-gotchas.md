@@ -49,6 +49,22 @@ cause, the fix, and the reason. Append new ones as they come up during builds.
 | Conveyor stopped but no MTBF/MTTR, `isFailed()` false | G43 |
 | "Nearest" AGV is far away by route | G44 |
 | Jib crane stuck or run errors after enabling Blocked zone | G45 |
+| An agent's On startup finds Main's data empty; rows written at startup vanish | G46 |
+| A results table or exported sheet grows with every run | G47 |
+| A new input workbook (Cloud upload or edited file) changes nothing | G48 |
+| Set-up that works on the desktop is missing in Cloud | G49 |
+| Experiment-page slider never shows; *Link to* can't find Main's parameter | G50 |
+| GIS agents in the wrong town or in the sea | G51 |
+| Converted rail network: trains vanish at track ends or pass through each other | G52 |
+| `item.inState(...)` in a population statistic won't compile (8.9+) | G53 |
+| A picture, note, chart or button from an agent type is repeated on Main | G54 |
+| A `triangular` delay runs far longer than its stated average | G55 |
+| Slider moved mid-run, agents don't react or react late | G56 |
+| Word of mouth slower after adding another population to Main | G57 |
+| Word of mouth far too fast, or every contact converts | G58 |
+| Cumulative adopters flat, or equal to current users | G59 |
+| "Either brand" buyers all pick the same brand | G60 |
+| A rate or timeout acts per second although the model runs in days | G2 (note on units) |
 
 ---
 
@@ -108,6 +124,12 @@ https://help.anylogic.com/topic/com.anylogic.help/html/experiments/Setting%20Tim
 **Notes:**
 - Default is `seconds`. Units available: ms, seconds, minutes, hours, days, weeks, months, years.
 - Can be changed any time, but best set at creation.
+- New timed elements (a transition's timeout or rate, an event's timing, a chart's update period)
+  take the model time unit in force when they are created and keep it as an explicit unit;
+  changing *Model time units* later appears not to convert them *(inferred from the editor, not
+  tested)*. Set the unit first, and re-check every timeout, rate and recurrence after a change —
+  a word-of-mouth rate drawn while the model is still in seconds stays "per second" unless you
+  pick "per day" explicitly.
 - Units longer than a week are non-constant: a "month" = 30 days, a "year" = 365 days in model time.
 - For the Steve Biko digital twin set it to **hours** (data is hourly).
 
@@ -387,8 +409,8 @@ Card: `sim-opt-dual-formulations-and-bounds`.
 **Symptom:** only 7 parameters can be optimized, or the search stops at 500 iterations.
 **Cause:** AnyLogic's 8.8.4 release notes state that the bundled OptQuest is capped at 7 decision
 variables and 500 iterations (lifting the caps, or exporting an OptQuest optimization as a
-standalone app, is a paid option). The 8.9.9 Help page does not repeat the numbers — confirm on your
-licence *(PLE limits may differ, unverified)*.
+standalone app, is a paid option). The 8.9.9 Help's *Limitations in AnyLogic PLE* page (Editions) lists the
+same caps for the Personal Learning Edition: 500 iterations and 7 decision variables per experiment.
 **Fix:** set *Optimization engine* = **Genetic** (8.8.4+: no such cap, free export, but a fixed
 replication count only and a finite iteration count), shrink the problem (decompose, Pareto-aggregate
 levers), or buy the add-on. AnyLogic Cloud optimization runs the Genetic engine only; per the Cloud
@@ -554,6 +576,11 @@ recomputed on every access and read as `loadingTime()` (Help 8.9.9, Dynamic para
 parameters after *Create custom flowchart block*.
 **Why:** silent — the model runs and animates normally, only the spread of results collapses.
 Card: `custom-flowchart-block-from-repeated-chain`.
+The same once-only draw applies to a plain parameter of any agent type: a distribution in its
+default value is sampled once per agent, at creation. Used as a timeout (e.g. patience), every visit
+of that agent then waits the same time — the wait becomes a personal trait. Type the distribution
+into the Timeout field itself when each wait should be independent (a timeout is computed on every
+state entry — Help 8.9.9, *Transition*).
 
 ## G36 — A custom block cannot be opened while the model runs
 **Cause:** icon shapes react to the mouse only if they have an *On click* action.
@@ -655,3 +682,142 @@ results. Card: `mhl-agv-dispatch-choice-and-cargo-position`.
 height.
 **Why:** crane feasibility is geometric — check reach, height and blocked sector before tuning
 speeds. Card: `mhl-crane-reach-safe-height-movement-mode`.
+
+## Model data, startup order and Cloud set-up
+
+## G46 — Main's data is missing in the agents' On startup, or rows the agents write at startup vanish
+**Cause:** On startup runs from the innermost agents up the tree; the top-level agent's On startup
+runs **last**, after every agent in the model has been created and initialised (Help 8.9.9,
+*Initialization order*). Anything Main's On startup builds — or deletes — happens after the agents'
+own startup code.
+**Fix:** give shared structures their value where they are declared (initial values are set while
+the model is built, before any On startup), or run the per-agent step from Main's On startup as a
+loop placed after the shared set-up. For a results table, purge and then write, both from Main.
+**Why:** it fails either as a crash at time 0 or as a silently empty output file.
+Card: `excel-round-trip-results-and-cloud`.
+
+## G47 — A results table (or its exported sheet) holds several runs' rows
+**Cause:** rows inserted into the model's built-in database during a run stay there after it ends.
+**Fix:** make `deleteFrom(results).execute();` the first statement of Main's On startup and insert
+after it (G46), or tag each row with a run id. Test: two runs in a row leave one run's rows.
+**Why:** the duplication is invisible inside the model and inflates every total computed downstream.
+
+## G48 — A replaced input workbook (Cloud upload or edited file) changes nothing
+**Cause:** the model reads database tables copied from the workbook at import; they are refreshed
+from the file at start only if *Autoupdate imported tables on model startup* is ticked, and a failed
+refresh (renamed sheet or column, changed type) is reported only in the console while the run
+continues on the old data (Help 8.9.9, *Importing database tables*).
+**Fix:** tick Autoupdate; ship a template with fixed sheet names, column names and types; show what
+each run read (row count, a key column's sum) as an `Output`; close the workbook in Excel before local
+runs. **Why:** nobody sees the console in Cloud, so the stakeholder's plan silently isn't simulated.
+Card: `excel-round-trip-results-and-cloud`.
+
+## G49 — Set-up that works on the desktop is missing in AnyLogic Cloud
+**Cause:** Cloud runs the model under its own experiment framework, so the experiment's
+initialisation code (*Initial experiment setup*, *Before each experiment run*, …) does not run
+there (Help 8.9.9, *Initialization order*), and desktop experiment pages are not uploaded.
+**Fix:** move every set-up step into the top-level agent's On startup; expose each desktop override
+as a Run Configuration input. Cards: `excel-round-trip-results-and-cloud`,
+`experiment-page-pre-run-controls`.
+
+## G50 — Controls on the experiment page never appear, or their *Link to* offers no Main parameter
+**Cause:** new models skip the Simulation experiment screen by default (option *Skip experiment
+screen and run the model*, release notes). A control's *Link to* lists only elements of its own
+diagram, and Main does not exist before the run.
+**Fix:** untick the option; bind the control through the experiment's Parameters section by typing
+its getter (e.g. `slider.getIntValue()`) into the parameter's field. Use pre-run controls for inputs
+read while the model is built (population size, layout id); live controls on Main only for runtime
+policy levers. Card: `experiment-page-pre-run-controls`.
+
+## G51 — GIS agents land in the wrong place (another town, a same-name street, the sea)
+**Cause:** mapping a table column to *GIS location name* (likewise "first result of map search", a
+block's place name, or `jumpTo("…")`) runs an online search at startup and takes the first hit,
+searching first inside the map area visible at launch. The search server changed in 8.8.5 and search
+was fixed again in 8.9.5 (release notes), so results also differ between versions and machines.
+**Fix:** store coordinates and map *GIS location latitude / longitude* (decimal degrees, WGS 84);
+geocode names once, offline. If names must stay, set custom search bounds to the study region and
+stop at startup when an agent lands outside it. Card: `gis-agent-placement-from-table`.
+
+## G52 — After converting a shapefile to rail markup, trains vanish at track ends or pass through each other
+**Cause:** a track end without a switch is open, and a car leaving it leaves the rail model; tracks
+that cross without a switch are not treated as crossings; before 8.9.8 converted ends joined only when
+their coordinates matched exactly (8.9.8 joins ends less than 30 cm apart — release notes).
+**Fix:** after conversion inspect the boundary and every junction: trim stubs, add missing switches,
+check switch types, block real diamond crossings in code; compare track and switch counts with the
+source map. **Why:** conversion delivers geometry, not an operating network.
+Card: `gis-shapefile-to-rail-markup`.
+
+## Agent-based models, statecharts and controls
+
+## G53 — A population statistic written `item.inState(...)` will not compile in AnyLogic 8.9+
+**Cause:** 8.9.0 renamed the local variable of population *Statistics* conditions and expressions
+from `item` to `agent` (release notes). Material written for 8.8 and earlier — including *AnyLogic
+in 3 Days* (6th ed., pp. 54, 55, 77) and older course handouts — still shows `item`.
+**Fix:** write `agent.inState(Consumer.PotentialUser)` (no trailing semicolon in these fields); in
+code, `count(consumers, c -> c.inState(Consumer.PotentialUser))` works in any version.
+
+## G54 — Pictures, notes, charts or buttons drawn inside an agent type appear on Main, once per agent
+**Cause:** a container draws every element of an embedded agent type whose *Visible on upper agent*
+box is ticked, at the agent's position (Help 8.9.9, *Agent presentation*). In 8.9.9 the box starts
+ticked for new images, text, shapes, groups, charts and controls, and unticked for statechart
+elements, events, functions, variables and statistics (editor defaults).
+**Fix:** untick *Visible on upper agent* on anything meant only for the agent's own view; keep the
+agent's body at the axis origin; put model-wide notes on Main. **Why:** with 5,000 agents one pasted
+note becomes 5,000 copies and slows the animation. Card: `agent-type-graphics-visible-on-upper-agent`.
+
+## G55 — `triangular(...)`: the argument order forgives you, the "typical" value does not
+**Cause (Help 8.9.9):** the documented form is `triangular(min, max, mode)`, but AnyLogic also
+accepts `(min, mode, max)` and takes the larger of the last two as the maximum — so if a
+parameterised maximum drops below the mode, the two swap roles silently. `triangular(min, max)` puts
+the mode at the midpoint (symmetric). `triangularAV(avg, var)` is symmetric around `avg` with `var` a
+fraction (0.15, not 15). The truncated form is `triangular(min, max, left, mode, right)`, where min
+and max only truncate.
+**The trap:** experts quote the most likely value, but the mean is (min + mode + max)/3. The market
+tutorial's delivery time `triangular(1, 25, 2)`, described as "average 2 days", averages about 9.3
+days; no triangular on [1, 25] can average 2.
+**Fix:** write the documented order; when a source gives an *average*, set mode = 3·mean − min − max
+if that lands inside the range, otherwise use a right-skewed family with that mean; document each
+triangular with its mean. Face-check competing timeouts against their race probability.
+
+## G56 — A slider moved mid-run changes nothing (or only much later) for agents already in a state
+**Cause (Help 8.9.9, *Transition*, *Agent API*):** a Timeout is computed once, when the state is
+entered; a Rate is re-read only when that agent's `onChange()` runs (the engine calls it when the
+agent itself originates an event or receives a message); a Condition is tested only when something
+changes in that agent. Changing a parameter on Main notifies no agent.
+**Fix:** for Rate and Condition triggers add `for (Consumer c : consumers) c.onChange();` to the
+control's action (or the parameter's On change); for Timeouts, say the change applies to new entrants,
+or use a re-armable event. Agents waiting on a stock held by Main (`main.stockA >= 1`) likewise sleep
+through a restock — let the owner of the stock allocate it and wake the buyer (G60 card). For analysis,
+change inputs between runs. Card: `statechart-live-controls-trigger-reevaluation`.
+
+## G57 — Word of mouth slows, with no error, after another agent type is added to Main
+**Cause:** `sendToRandom()` / `sendToAll()` address the sender's whole **space** — every population
+and single agent embedded in Main — not the sender's own population (Help 8.9.9, *Communication
+between agents*). Adding retailers or trucks dilutes the contacts to c·N/(N+M).
+**Fix:** `send("Buy", randomFrom(main.consumers))`. Don't switch to a filtered target (only potential
+users) unless targeted referrals are intended — that drops the Bass saturation factor.
+Card: `abm-word-of-mouth-contact-targeting`.
+
+## G58 — Word of mouth is far too strong, or every contact converts
+**Cause:** the contact rate is applied twice — the sender's transition already fires at rate c and
+the receiver's guard multiplies by it again (`randomTrue(adoptionFraction * contactRate)`). And
+`randomTrue(p)` with p ≥ 1 raises no error: it is simply always true.
+**Fix:** put c in exactly one timer and the adoption fraction in exactly one decision (sender rate c
++ receiver guard `randomTrue(i)`, or sender rate c·i + unguarded receiver); assert probabilities
+≤ 1. Card: `abm-wom-conversion-rate-vs-probability`.
+
+## G59 — "Cumulative users" stalls, or grows on noise, once users can leave the state
+**Cause:** it is built by differencing a level (today's count in the user state minus yesterday's,
+clamped with `max(0, …)`). That difference is adoptions minus exits, and the clamp drops every day
+exits win — it is right only while nobody ever leaves.
+**Fix:** count at the event (`main.adoptions++` in the target state's Entry action), keep a per-agent
+flag for distinct reach, and assert users = initial + adoptions − exits.
+Card: `abm-adoption-flow-counters-vs-state-counts`.
+
+## G60 — A buyer who would take either brand always buys the same one
+**Cause:** two Condition transitions out of one state that are both true at once are simultaneous
+events; the engine picks by its internal order (LIFO by default since 8.6, when the experiment's
+selection-mode setting was removed — release notes), not by any modelled preference.
+**Fix:** make the choice explicit in one place — route into a Branch with the rule on one exit and
+Default on the other, or let the stock owner apply the rule. Never let results depend on event
+order. Card: `abm-stock-gated-purchase-allocation-and-brand-tie`.

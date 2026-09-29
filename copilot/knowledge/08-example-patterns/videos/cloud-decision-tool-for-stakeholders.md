@@ -13,7 +13,7 @@ n/a
 
 ## Key settings worth copying
 - Export through the model's **Run Configuration**: pick the top-level agent, list the levers under **Inputs** (parameters of that agent) and the KPIs under **Outputs** (Analysis-palette elements such as Output, datasets and statistics). Only listed items appear in the Cloud UI.
-- Table-shaped inputs (a roster by day-part, a forecast arrival curve) become a **file input** (Excel) that the model reads at startup. Cloud keeps uploaded files for reuse, and one workbook can act as both input and output (input sheet in, results sheet out).
+- Table-shaped inputs (a roster by day-part, a forecast arrival curve) become a **file input** (Excel) that the model reads at startup. Cloud keeps uploaded files for reuse, and one workbook can act as both input and output (input sheet in, results sheet out). Mechanics (Autoupdate imported tables, purge then write, export at the end): `excel-round-trip-results-and-cloud.md`.
 - Match the Cloud experiment to the question:
   - Simulation: one run.
   - Parameter variation: with or without replications.

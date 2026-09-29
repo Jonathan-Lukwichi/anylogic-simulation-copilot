@@ -49,3 +49,4 @@ A CAD import is a filtering job, not a drawing job. Decide which layers are phys
   - Ask for the file and for which layers hold walls and partitions.
   - Calibrate the scale, then convert.
 - A user is tracing walls by hand over a background image.
+- For GIS sources (shapefiles) of rail, roads, paths or walls, see `gis-shapefile-to-rail-markup.md`.

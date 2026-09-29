@@ -13,7 +13,7 @@ Each aircraft in the fleet is an agent (class `Plane`) that carries its own coll
 - Repair technicians implied by `repairTime` parameter per equipment type (no explicit ResourcePool block — capacity embedded in repair-time table)
 
 ## Key settings worth copying
-- Breakdown inter-arrival time: `triangular(timeBetweenBreakdowns, 2*timeBetweenBreakdowns)` — asymmetric triangular giving a realistic right-skewed failure interval
+- Breakdown inter-arrival time: `triangular(timeBetweenBreakdowns, 2*timeBetweenBreakdowns)` — the two-argument form puts the mode at the midpoint (here 1.5 × `timeBetweenBreakdowns`), so it is symmetric, not right-skewed (Help 8.9.9; corrected 2026-09-29)
 - Per-spare repair time looked up from a data table (`order_db`) keyed on equipment type
 - Monthly order quantity: integer array `monthlyOrderSize[]`, one entry per spare category, driven by sliders for interactive experimentation
 - `uniform_discr(100, 1000)` for random spare serial numbers; `uniform_discr(100000, 999999)` for flight IDs

@@ -27,3 +27,4 @@ A population of Airplane agents lives inside a GIS Environment. On startup, each
 
 ## Reusable idea
 Bundle a shapefile (`.shp`/`.dbf`/`.shx`) directly as model resources and attach it to a GIS Environment — agents then gain automatic great-circle movement, heading, and geo-distance APIs with zero external dependencies. This pattern is the minimal scaffold for any geospatial ABM that needs real country/region boundaries without a paid map service.
+To turn a shapefile into rail or road markup rather than a map layer, see `../videos/gis-shapefile-to-rail-markup.md`.

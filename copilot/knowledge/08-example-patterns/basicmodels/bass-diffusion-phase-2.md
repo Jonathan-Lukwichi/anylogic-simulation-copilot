@@ -21,7 +21,7 @@ n/a — pure SD stock-and-flow; no agent populations or resource pools.
 | `TotalPopulation` | 100 000 | Market size; also sets the initial stock of PotentialAdopters |
 | `AdEffectiveness` | 0.011 (dimensionless fraction/year) | Innovation coefficient — controls early-market lift |
 | `ContactRate` | 100 per year (stored as per-minute but used annually) | How often an adopter contacts others |
-| `AdoptionFraction` | 0.015 | Fraction of contacts that convert — imitation coefficient |
+| `AdoptionFraction` | 0.015 | Fraction of contacts that convert (the Bass imitation coefficient is q = ContactRate × AdoptionFraction) |
 | Model time unit | Year | Ensures rates are interpreted annually |
 
 All four parameters are exposed as interactive sliders in the UI, enabling real-time sensitivity analysis during a run.

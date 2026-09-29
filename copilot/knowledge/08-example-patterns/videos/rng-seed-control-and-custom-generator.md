@@ -33,7 +33,7 @@ n/a
   The class must extend `java.util.Random`.
 - Dedicated streams: every distribution function has an overload that takes a trailing `Random`, e.g. `triangular(5, 10, 25, svcRng)`. G3 shows the lognormal one. The most complete overload always has it.
 - `setDefaultRandomGenerator(Random r)` swaps the generator mid-run. The Randomness setting is re-applied before the next run, though.
-- The same section sets **Selection mode for simultaneous events**: Random, FIFO or LIFO.
+- Simultaneous events: since 8.6 the experiment has no selection-mode setting and the engine runs them LIFO by default (release notes); an Engine API call to change it remains but is marked experimental. Never let results depend on that order (G60). *(Corrected 2026-09-29.)*
 
 ## KPIs instrumented
 n/a. This is a verification and experiment-design technique.

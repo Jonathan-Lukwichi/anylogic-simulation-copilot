@@ -23,7 +23,7 @@ n/a — pure stock-and-flow model; no agents, queues, or resource pools.
 | TotalPopulation | 100 000 | — | Market size ceiling |
 | ContactRate | 100 | per minute (treated as per year in model time) | Social contact frequency |
 | AdEffectiveness | (slider) | — | Coefficient of innovation (p) |
-| AdoptionFraction | (slider) | — | Coefficient of imitation (q) |
+| AdoptionFraction | (slider) | — | Share of contacts that convert; with `ContactRate` it sets the Bass imitation coefficient q = ContactRate × AdoptionFraction |
 | ModelTimeUnit | Year | — | All rates interpreted annually |
 
 Slider controls are wired to all four parameters, enabling live what-if exploration without re-running.

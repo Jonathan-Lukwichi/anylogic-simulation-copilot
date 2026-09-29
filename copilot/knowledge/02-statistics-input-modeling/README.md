@@ -10,7 +10,7 @@ Distribution fitting + goodness-of-fit. NIST handbook, fitdistrplus, scipy.stats
 | Categorical shares (class, route, sex) | Empirical | option-list parameter following an empirical distribution, or a Custom Distribution |
 | Published bands (census age groups) | Empirical ranges | Custom Distribution → Ranges |
 | No family fits, or the data are multimodal | Empirical | Custom Distribution → observed samples (continuous to interpolate; loaded from the database if large) |
-| Almost no data, only expert min / likely / max | Triangular | `triangular(min, mode, max)` |
+| Almost no data, only expert min / likely / max | Triangular | `triangular(min, max, mode)` — AnyLogic's documented order (it also accepts min, mode, max and finds the maximum itself). The expert's "likely" value is the **mode**; the mean is (min + mode + max)/3 — gotcha G55 |
 
 **Always state the caveat when an empirical form is chosen:** it cannot produce values beyond the
 observed range, so it understates extremes. Keep the fitted form when one passes. Card:

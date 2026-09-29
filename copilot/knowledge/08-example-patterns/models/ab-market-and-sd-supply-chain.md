@@ -20,7 +20,7 @@ The two layers are coupled at two points: (1) the ABM counts `NUseA()` and `NUse
 - Time unit: **Day**
 - Delivery flow formula: `FactoryStock / DeliveryTime` (first-order pipeline)
 - Consumer brand-loyalty timeout drawn from `uniform(17, 23)` days before reconsideration
-- Purchase transition guard: `main.RetailerStock >= 1` — prevents negative inventory
+- Purchase transition guard: `main.RetailerStock >= 1` — prevents negative inventory *(check 2026-09-29: waiting buyers re-test a condition on Main's stock only on their own events or `onChange()`, so check how the model wakes them after a restock — `../videos/abm-stock-gated-purchase-allocation-and-brand-tie.md`, gotcha G56)*
 - Network links between consumers: `ConnectionsPerAgent = 2` (sparse word-of-mouth graph)
 - SD forecasts wired to ABM counts: `ForecastA = consumers.NUseA()` pattern
 
