@@ -31,6 +31,10 @@
    | Custom routing across agents (shortest queue, nearest site) | Exit → `target.enter.take(agent)` |
    | Same block chain repeated per zone/station/line | Custom flowchart block — refactor once the logic is verified; per-agent parameters must be **Dynamic** (G35) |
    | Per-agent raw KPI export | Database → Log model execution (Simulation experiment only, G19) or Export tables at the end of model execution |
+   | Per-run result rows for Excel / Cloud | Results table in the model database: `deleteFrom(...)` then `insertInto(...)` from Main (G46, G47) + *Export tables at the end of model execution* — card `videos/excel-round-trip-results-and-cloud` |
+   | Count adoptions / churn / infections | Counter in the target state's Entry action; per-agent flag for distinct reach (G59) |
+   | Word-of-mouth conversion | Sender rate c + receiver guard `randomTrue(i)`, or sender rate c·i + no guard — never both (G58); target `randomFrom(population)`, not `sendToRandom()` (G57) |
+   | Agents wait for a stock or capacity another agent holds | Owner-side allocation: ordered waiting list + a serve function that reserves a unit and calls `onChange()` on the buyer (G56, G60) |
 
    **Beyond PML** (library-specific constructs, built by hand in AnyLogic):
 
@@ -50,8 +54,12 @@
    | Vehicles that queue, give way or collide | `TransporterFleet` (path-guided or free-space) + `SeizeTransporter` / `MoveByTransporter`; set the dispatch policy explicitly (G44) |
    | Lifting by crane | `MoveByCrane` (safe height, component movement mode; reach and crane height, G45) |
    | Equipment breakdown (8.9) | `Downtime` block attached to the MHL markup, or `fail()` / `repair()` — not `stop()` (G43) |
+   | Sites at real locations | Population loaded from a table with columns mapped to *GIS location latitude / longitude* — not place names (G51) |
+   | An existing rail yard or street grid | GIS shapefile → *Convert Shapefile to Space Markup*, then curate the topology (G52) |
 
-4. **Configure environment** — model time units, runtime window, scaling (decide the Scale before
+4. **Configure environment** — model time units (set them before drawing statecharts, events or
+   charts — new timed elements take the unit in force when they are created, G2), runtime window,
+   scaling (decide the Scale before
    drawing markup — G26). Randomness: **fixed seed** while building, verifying and demoing; random seed
    (or per-replication seeds) for any estimate (G16, G17).
 5. **Animate & instrument** — displays, indicators, live KPI counters/plots.
@@ -63,6 +71,12 @@
    - [ ] Colour carries information: 2D fills, or `shape.setColor("<material>", color)` in 3D (G33).
    - [ ] Scenario changes that remove capacity are visible in the drawing too (G34).
    - [ ] Custom blocks show `in.count()` / `out.count()` and open on click (`return true;`, G36).
+   - [ ] Each lever sits where the model reads it: inputs read while the model is built (population
+     size, layout id, which table to load) are pre-run controls or Cloud inputs (G50); only runtime
+     policy levers get live controls on Main, and those call `onChange()` for Rate/Condition
+     triggers (G56).
+   - [ ] Agent types: only the agent's own body is *Visible on upper agent* — notes, screenshots,
+     charts and controls inside agent types are unticked (G54).
 6. **Verify & extract** — run, sanity-check against theory (e.g. Little's Law), check conservation
    (`source.count()` = exits + WIP — G37), read off KPIs. **Never report a KPI from a single
    fixed-seed run**; use replications and give a confidence interval.
@@ -70,4 +84,12 @@
    top-level agent (nested KPIs surfaced by expression, G39); scenario comparisons use a replicated
    experiment type; outputs come from **Run**, not from watching the animation (G40); check the
    account tier (run time, memory, API) before promising delivery — card
-   `videos/cloud-run-semantics-and-access`.
+   `videos/cloud-run-semantics-and-access`. Put every set-up step in the top-level agent's On startup
+   (Cloud skips the experiment's set-up code, G49); table inputs need *Autoupdate imported tables on
+   model startup*, and each run should show what it read (G48).
+   *Agent-based face checks:* state counts sum to the population and users = initial + adoptions −
+   exits (G59); a word-of-mouth model's mean curve tracks the SD Bass curve with the same p and
+   q = contact rate × adoption fraction; exits of a state left by competing timeouts split as their
+   race probability predicts (G55); every rare-path transition (give up, switch, stock-out) has a
+   counter; no state has two transitions that can fire at the same instant without an explicit
+   choice rule (G60).

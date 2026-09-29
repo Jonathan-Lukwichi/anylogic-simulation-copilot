@@ -32,9 +32,9 @@
 Transcripts are fetched with the skill `../.claude/skills/youtube-transcript/` into
 `knowledge/transcripts/` (**gitignored** — the publisher's text stays local). Only the
 novelty-gated, own-words result is committed: cards in `knowledge/08-example-patterns/videos/` and
-entries G7–G45 in `knowledge/01-anylogic-core/anylogic-gotchas.md`. Every candidate fact was checked
-against the KB, the text of its local PDFs and the AnyLogic 8.9.9 Help first: of 479 items, 235 were
-new and added; 244 were already known and skipped.
+entries G7–G60 in `knowledge/01-anylogic-core/anylogic-gotchas.md`. Every candidate fact was checked
+against the KB, the text of its local PDFs and the AnyLogic 8.9.9 Help first: across both rounds 675
+items were checked: 295 were new and added; 380 were already known and skipped.
 
 | Video | Title | Result |
 |---|---|---|
@@ -57,12 +57,20 @@ new and added; 244 were already known and skipped.
 | WIU8-2hqyqM | How to generate 3D objects of different colors | `per-agent-3d-material-color` |
 | F93iENzUcWc | AnyLogic Cloud | `cloud-run-semantics-and-access`, `cloud-api-programmatic-runs` |
 | AdvSDuvk78U | Reading agent attributes from a database | **no card — already known** (*AnyLogic in 3 Days* teaches the same flow) |
+| UKCd6BFwdlg | Placing agents on the GIS map | `gis-agent-placement-from-table` (G51) |
+| pd8QMBL-ri4 | Setting up parameters from the experiment page | `experiment-page-pre-run-controls` (G50) |
+| LVoEVGHKHZk | Using files as inputs and outputs in AnyLogic Cloud | `excel-round-trip-results-and-cloud` (G46–G49) |
+| N3p2_BMVUJE | Converting GIS shapefiles to AnyLogic rail markup | `gis-shapefile-to-rail-markup` (G52) |
+| ImC_ZVHs3tc | Simulation Basics Explained (third-party course) | **no card — already known** (general simulation basics) |
+| UT38puq5VP4 | ABM Tutorial Part 1 — consumer market problem | **no card** — follows *AnyLogic in 3 Days* (Market model); prompted the G2 note on time units |
+| InF63gDYLk4 | ABM Tutorial Part 2 — consumer population | **no card — already known** |
+| k69Ow9q8gBc | ABM Tutorial Part 3 — statecharts | `agent-type-graphics-visible-on-upper-agent` (G54) |
+| V_wPH3O0Wb0 | ABM Tutorial Part 4 — statistics and charts | gotcha G53 (`item` → `agent`) |
+| sAQ0BOf5XgM | ABM Tutorial Part 5 — word of mouth | `abm-word-of-mouth-contact-targeting` (G57) |
+| t1VDziRGpco | ABM Tutorial Part 6 — product discard | **no card — already known** |
+| E_ik0KFA_Sk | ABM Tutorial Part 7 — delivery time | gotcha G55 (`triangular`: mode is not the mean) |
+| iVOqcz5iZTw | ABM Tutorial Part 8 — consumer impatience | `statechart-live-controls-trigger-reevaluation` (G56) |
+| tgS0flXRM4E | ABM Tutorial Part 9 — comparing runs | **no card — already known** |
+| pDpw9h09gss | Complete 2.5-hour ABM tutorial | **no card** — 94% identical to Parts 1–9; the remaining lines were reviewed and held nothing new |
+| HBd_dKNVrSU, 63V7dBGjb14, nKW8GG5og4U, QocfkYnwSYw, UgH7g5PhG90 | "Scenario 1" ABM market-competition series (Parts 1–5) | `abm-adoption-flow-counters-vs-state-counts`, `abm-wom-conversion-rate-vs-probability`, `abm-stock-gated-purchase-allocation-and-brand-tie` (G58–G60) |
 
-**Pending** (YouTube rate-limited the fetching machine; retry with the skill): UKCd6BFwdlg (Placing
-agents on the GIS map), pd8QMBL-ri4 (Setting up parameters from the experiment page), LVoEVGHKHZk
-(Using files as inputs and outputs in AnyLogic Cloud), N3p2_BMVUJE (Converting GIS shapefiles to
-AnyLogic rail markup), and a third-party agent-based consumer-market course (playlist
-PL8Va9anXVb_d4jnotPHq3pZOE2OfhQyr6, 16 videos). That course's topic (Bass-style market model: word of
-mouth, discards, delivery time, impatience, run comparison) is largely covered already by the
-`bass-diffusion*`, `consumer-market` and `ab-market-and-sd-supply-chain` cards and by *AnyLogic in 3
-Days* — expect mostly already-known; verify against the transcripts before adding anything.

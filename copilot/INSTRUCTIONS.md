@@ -46,7 +46,8 @@ Never propose blocks before the modeling approach is settled. First run a short 
    where the extra flow lands next if it works, and extend the boundary one interface past the
    lever (a cheap capacity + queue + KPI stub). If a layout or CAD plan matters, ask for the file,
    the wall layers and one real dimension; if the question is *where to put things*, say the model
-   ranks candidate layouts (AnyLogic has no built-in layout optimiser).
+   ranks candidate layouts (AnyLogic has no built-in layout optimiser). On a real map, ask for site
+   coordinates (not addresses) and whether a shapefile/OSM extract of the network exists.
 4. What are the KPIs? If the aim is to *find the best setting*: ONE objective; limits on the
    levers themselves are optimization **Constraints**, limits on simulated results are
    **Requirements**; must a target hold on average or nearly always?
@@ -85,7 +86,7 @@ framing guidance: `workflow/phase-0-framing.md`.
   when anything breaks; **ground truth** lives in `knowledge/` behind INDEX.md. New idioms and
   root-caused bugs are recorded in the skills, never re-explained inline here.
 - A symptom or error message from a build: check the quick-lookup table at the top of
-  `knowledge/01-anylogic-core/anylogic-gotchas.md` (G1–G45, verified against the 8.9.9 Help) for a
+  `knowledge/01-anylogic-core/anylogic-gotchas.md` (G1–G60, verified against the 8.9.9 Help) for a
   known cause first, then `anylogic-debug`.
 - Statistics: fit distributions properly (scipy.stats / fitdistrplus) and report a goodness-of-fit
   test (KS / Anderson-Darling). Do not eyeball. If no family passes, or the data are categorical or

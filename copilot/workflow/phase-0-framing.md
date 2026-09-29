@@ -31,6 +31,12 @@ The most important gate. Never suggest blocks before this is done.
   hold walls, and one real dimension to check scale (`videos/cad-drawing-to-pedestrian-walls.md`).
   If the question is *where to put things*, say now that the model ranks candidate layouts —
   AnyLogic has no built-in layout optimiser (`videos/layout-candidates-and-design-time-api.md`).
+- **Real map.** If sites, depots, customers, a rail yard or a street grid sit on a real map, ask for
+  each site's coordinates (latitude/longitude, WGS 84) rather than addresses, whether a shapefile or
+  OSM extract of the network exists, and which scale is needed: network-level GIS routes, or
+  yard-level Rail / Road Traffic markup converted from the shapefile
+  (`knowledge/08-example-patterns/videos/gis-agent-placement-from-table.md`,
+  `videos/gis-shapefile-to-rail-markup.md`).
 - **Equipment rules** (when material moves on equipment): conveyor type and merge priorities;
   station cycle time, batch vs per-item processing, crew; fleet size, fixed path vs free space, and
   the dispatch rule; crane motion mode, safe height and reach; MTBF/MTTR and who repairs. Record
@@ -43,6 +49,9 @@ The most important gate. Never suggest blocks before this is done.
 - **Finding the best setting?** Name ONE objective KPI. Limits on the levers themselves (budget,
   headcount) become optimization *Constraints*; limits on simulated results (service level, lost
   customers) become *Requirements*. Must a target hold on average, or nearly always?
+- **Markets where supply can run short:** what does a buyer do when their brand is out (wait,
+  switch, leave)? Is patience a trait of the person or drawn per episode? Who gets restocked units
+  first? State these policies instead of inheriting engine defaults.
 
 ## Approach chooser
 - **Flow of entities through limited resources, event-ordered** -> Discrete-Event (DES)
