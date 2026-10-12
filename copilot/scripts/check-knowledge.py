@@ -9,6 +9,8 @@ Checks:
   2. Every pattern card has a title + paradigm + "Problem it solves" line.
   3. 08-example-patterns/INDEX.md exists and counts match the cards on disk.
   4. Relative links inside INDEX files resolve to real files.
+  5. The gotchas file is consistent: G-numbers unique and contiguous, each entry has a quick-lookup
+     row and every row an entry, and every "Card:" pointer names a real card (scripts/gotchas_check.py).
 
 Usage (from the project root  ie-simulation-copilot/):
     python scripts/check-knowledge.py
@@ -20,7 +22,7 @@ import sys
 ROOT = Path(__file__).resolve().parent.parent
 KNOW = ROOT / "knowledge"
 PATTERNS = KNOW / "08-example-patterns"
-SUB = ["basicmodels", "models", "sdmodels", "videos"]
+SUB = ["basicmodels", "models", "sdmodels", "bigbookmodels", "bigbook", "videos"]
 
 TITLE_RE = re.compile(r"^#\s*Pattern card\s*[—\-:]\s*(.+?)\s*$", re.M)
 PARADIGM_RE = re.compile(r"-\s*\*\*Paradigm:\*\*", re.M)
@@ -95,6 +97,22 @@ for index_file in list(KNOW.rglob("INDEX.md")) + ([KNOW / "INDEX.md"] if (KNOW /
         clean = target.split("#")[0]
         if clean and not (base / clean).exists():
             fail(f"broken link in {index_file.relative_to(ROOT)} -> {target}")
+
+# --- Check 5: gotchas file consistent ---
+sys.path.insert(0, str(ROOT))
+from scripts.gotchas_check import HEADING, check_gotchas  # noqa: E402
+
+gotchas = KNOW / "01-anylogic-core" / "anylogic-gotchas.md"
+if gotchas.is_file():
+    card_set = {str(p.relative_to(PATTERNS).with_suffix("")).replace("\\", "/")
+                for sub in SUB for p in (PATTERNS / sub).glob("*.md")
+                if p.name not in {"README.md", "INDEX.md"}}
+    gtext = gotchas.read_text(encoding="utf-8")
+    found = check_gotchas(gtext, card_set)
+    for f in found:
+        fail(f"anylogic-gotchas.md: {f}")
+    if not found:
+        notes.append(f"gotchas file consistent ({len(HEADING.findall(gtext))} entries)")
 
 # --- Report ---
 for n in notes:
