@@ -3,6 +3,9 @@
 - **Paradigm:** DES
 - **Problem it solves:** Models a conveyor-and-transporter-based battery-plate production line where individual electrodes are batched before being moved by forklifts to downstream processing.
 
+> **Verified corrections (2026-10-01).** Checked against the shipped 8.9.10 example `.alp` and the tutorial text (AnyLogic Help tutorials, *AnyLogic in 3 Days*). Where they differ from the text below, these win.
+> - Mostly right. Add: the curing Delay keeps capacity 1 although five oven attractors and 3D chambers are drawn, so the animation promises five parallel ovens that the logic lacks (gotcha G34).
+
 ## Block chain
 Electrodes arrive at a Source in bursts (200 units every 1.5 hours) and travel along a Conveyor. A Batch block accumulates 100 electrodes into a PlatesBatch entity. Two separate MoveByTransporter stages use a shared forklift fleet to carry batches between stations. A Delay block represents a fixed 2-minute process step. A second MoveByTransporter routes finished batches onward (optionally to a pre-assembly buffer named `preassembleElectrodeBuffer`). The flow terminates at a Sink.
 

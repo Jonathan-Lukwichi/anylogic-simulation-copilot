@@ -3,6 +3,11 @@
 - **Paradigm:** DES
 - **Problem it solves:** Models a warehouse job-shop where pallets arrive, are stored in rack storage, retrieved by forklift trucks for processing, then dispatched by outbound trucks — capturing material-handling logistics with autonomous vehicle agents.
 
+> **Verified corrections (2026-10-01).** Checked against the shipped 8.9.10 example `.alp` and the tutorial text (AnyLogic Help tutorials, *AnyLogic in 3 Days*). Where they differ from the text below, these win.
+> - The trucks are **inbound delivery** trucks, one per hour from t = 0 at 40 km/h: Source → MoveTo dock → Delay `unloading` (*until stopDelay()*, *On enter* `sourcePallets.inject(60)`) → MoveTo exit → Sink — not outbound loading on a schedule.
+> - The pallet Source switches to *Calls of inject()*; Store's *On exit* calls `unloading.stopDelayForAll()` when `self.nWaitingForResource() == 0` (pp. 176–179). Beware `stopDelay(null)`, which releases every truck (gotcha G87).
+> - "Delay (unloading/processing, triangular 15–30)" is the rack dwell again; `capacityBasedOnAttractors` is an unused option.
+
 ## Block chain
 Two parallel flows share the same physical space and resource pool:
 

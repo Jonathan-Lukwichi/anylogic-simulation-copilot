@@ -6,5 +6,6 @@ This is a skeleton to adapt, not a runnable file.
 # import gymnasium as gym
 
 # 1. Export the AnyLogic model from the RL experiment.
-# 2. Define observation, action, reward in the RL experiment.
+# 2. Define observation, action, configuration and stop condition in the RL experiment.
+#    The RL experiment has no reward field (8.9.10): compute the reward here, from observation fields.
 # 3. Launch and control runs from here, exposing reset()/step() like a gym.Env.

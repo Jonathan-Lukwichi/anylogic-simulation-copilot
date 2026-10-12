@@ -57,3 +57,7 @@ Keep **who** does the job (condition + dispatching policy) separate from **how**
 - **Use cases:** AGV or forklift fleets served by cranes, robots or operators; fleet sizing; "wrong AGV gets picked" questions; 3D cargo that floats or is buried.
 - **Choosing a library:** use transporters, not ResourcePool moving units, when congestion and give-way at crossroads matter. PML network movers do not interfere with each other (`anylogic-in-3-days.pdf` p. 138).
 - **Related cards:** `models/palletizing-system-with-agv.md`, `models/transporters-moving-in-free-space.md`.
+
+## Additions (8.9.10 review, 2026-10-01)
+- `SeizeTransporter` can send the vehicle to a point on a path (`destinationPath`, `destinationPathOffset`) instead of a node. For crane unloading, the crane first lifts the load clear of the AGV (`MoveByCrane` to `agent.getZ() + 10`, *Release crane* off) **before** `ReleaseTransporter`, and only then puts it on the conveyor; `Convey` can turn items on the belt (*Change orientation*, `AGENT_ORIENTATION_LEFT`) (8.9.10 *SeizeTransporter and ReleaseTransporter*).
+- 8.9.10 adds `getEstimatedTimeOfArrival()`, `jump()`, `recalculatePriorities()` on SeizeTransporter/MoveByTransporter, a *Fastest* routing policy and an *On collision* action (release notes).

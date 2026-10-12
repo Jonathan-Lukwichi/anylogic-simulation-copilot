@@ -9,7 +9,7 @@ A cohort of 1 000 Patient agents is created at time zero, each starting at age 0
 ## Resources
 - No explicit service resources or capacity pools.
 - Agent population: 1 000 Patient agents, all spawned at model start.
-- Network: small-world-style grid topology (100 × 100, M = 10 connections per agent).
+- Network: none — the network type is User-defined and the model calls no `setNetwork*` / `applyNetwork`; patients do not interact (corrected 2026-10-01 from the 8.9.10 `.alp`). An earlier version read the unused environment defaults (100 × 100, M = 10) as a small-world topology.
 
 ## Key settings worth copying
 - **BMI distribution:** `triangular(15, 25, 40)` — assigned once per agent at creation; drives both MI and stroke annual probability multipliers (`prob * BMI / 20`).

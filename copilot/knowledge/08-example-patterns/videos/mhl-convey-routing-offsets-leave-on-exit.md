@@ -50,3 +50,7 @@ Treat the conveyor network as a routing graph and keep the flowchart thin: one `
   - `basicmodels/conveyor-singulator.md`
   - `basicmodels/item-flow-control-on-a-reversible-conveyor-spur.md`
   - `videos/mhl-conveyor-types-spur-priority-transfer-elements.md`
+
+## Additions (8.9.10 review, 2026-10-01)
+- An offset can come from where something stands in free space: `scale.toLengthUnits(agent.getX() - conveyor.getStartPoint().x, METER)` (Help *Scale*), so a worker drops an item exactly beside themselves; equally spaced stop points on a belt are `k * (agent.getLength(METER) + conveyor.getGap(METER))` from the end (`getGap` = the conveyor's minimum gap). The Queue in front of `ConveyorEnter` holds the item while a passing item occupies the spot (8.9.10 *Put Agent in Arbitrary Point of Conveyor*).
+- Worked reject idiom (Lead Acid Battery phase 5): a QA verdict in a Station's *On process finished* calls `convey.cancel(agent)`, and `outRedirect` → Convey (*Convey from: Current position*) carries the item to a reject conveyor. The port Help calls `outRedirect` is stored as `ccl` in the `.alp` connectors; check the generated name before wiring it by code *(unverified)*.

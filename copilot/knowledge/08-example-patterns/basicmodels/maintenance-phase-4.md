@@ -3,6 +3,9 @@
 - **Paradigm:** ABM
 - **Problem it solves:** Sizing and dispatching a mixed transport fleet (trucks + helicopters) to service a field of remote assets (wind turbines) that fail stochastically.
 
+> **Verified corrections (2026-10-01).** Checked against the shipped 8.9.10 example `.alp` and the tutorial text (AnyLogic Help tutorials, *AnyLogic in 3 Days*). Where they differ from the text below, these win.
+> - The branch is taken on arrival back at the centre, so vehicles do return to the depot before taking a queued job. Dispatch uses `send(req, t)` to the chosen vehicle; the default `connections` link plays no part. The idle-check-then-send dispatcher can double-book a vehicle when two requests coincide (gotcha G77).
+
 ## Block chain
 A Maintenance Center (MC) agent sits at a fixed depot. Twenty-five Turbine agents are scattered across a spatial environment (scale: 10 km per 100 pixels, time unit: hours). When a turbine needs service it creates a ServiceRequest and queues it on the MC — either in the `autoRequests` list (road-accessible, AUTO type) or `aviaRequests` list (aviation required, AVIA type).
 

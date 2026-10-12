@@ -3,6 +3,10 @@
 - **Paradigm:** SD
 - **Problem it solves:** Models how a product spreads through a market via two competing channels — advertising and word-of-mouth — while accounting for product obsolescence through a discard delay.
 
+> **Verified corrections (2026-10-01).** Checked against the shipped 8.9.10 example `.alp` and the tutorial text (AnyLogic Help tutorials, *AnyLogic in 3 Days*). Where they differ from the text below, these win.
+> - The phase's content is the seasonal `demand` table (arguments 1…12, Linear, Out of range *Nearest*) read through `getMonth()` into `AdoptionFraction`. `getMonth()` is 0-based, so every month reads the previous month's row and December's row is never used (gotcha G64); use `demand(getMonth() + 1)`.
+> - This phase stores ContactRate = 100 with unit *per minute* while the model runs in years; the tutorial means per year (see phase 1 note).
+
 ## Block chain
 Two stock variables track the population over time: **PotentialAdopters** (starts at TotalPopulation, drains via AdoptionRate) and **Adopters** (fills via AdoptionRate, drains via DiscardRate).
 

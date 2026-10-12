@@ -7,7 +7,7 @@
 Containers arrive at a Source and pass through a Delay (representing stacking/staging time). A SelectOutput block routes each container to one of two parallel handling sub-chains depending on the active dispatch strategy. Each sub-chain follows: SeizeTransporter (grab an AGV) → MoveByCrane (blue or red bridge picks up the container) → SeizeTransporter (confirm AGV ready at drop point) → MoveByTransporter (AGV carries load away) → MoveByCrane (bridge returns or repositions) → Sink. In the shared-queue variant a third sub-chain uses a single SeizeTransporter named `seizeNearestAGV`; a custom condition checks which bridge is geometrically closer to the waiting container and assigns it dynamically.
 
 ## Resources
-- Two overhead crane bridges (blue bridge, red bridge) modelled as crane transporters on a shared overhead path network. *(Check 2026-09-28: in AnyLogic 8.9.9 a multi-bridge crane is normally **one Overhead Crane element with Number of bridges = 2**, the bridges moving in automatic mode by default (Help 8.9.9, overhead crane markup) — which also explains the automatic conflict avoidance below. The example model itself was not available offline to confirm how it is built; open it in AnyLogic before copying this detail.)*
+- Two overhead crane bridges (blue and red), built as **one Overhead Crane markup element with two bridges** (two `OverheadCraneBridge` elements), not as separate transporters on a path network. The bridges share the runway and move in automatic mode, which is why no custom collision code is needed. *(Verified 2026-09-30 against the example model shipped with AnyLogic 8.9.10.)*
 - A fleet of AGVs (`AGV` agent population) that serve as ground-level transporters receiving loaded containers from the crane and carrying them to destination nodes.
 - Each bridge and AGV fleet has an independent capacity parameter; AGV speed is a configurable parameter.
 
@@ -26,3 +26,6 @@ Containers arrive at a Source and pass through a Delay (representing stacking/st
 
 ## Reusable idea
 The transferable trick is the **two-mode dispatch toggle**: model both a centralised nearest-resource rule and a partitioned dedicated-resource rule inside the same model, separated by a SelectOutput conditioned on a pre-run parameter. This lets analysts compare throughput and utilisation under both policies in a single experiment without duplicating the model, and the distance-based nearest-resource selector (`agent.distanceTo(point)`) is a clean, copy-paste-ready pattern for any multi-crane, multi-AGV, or multi-server layout where spatial proximity is the tiebreaker.
+
+## Additions (8.9.10 review, 2026-10-01)
+- For movers that are not MHL crane bridges, or for custom matching rules between requests and movers, see the hand-built runway dispatcher in `models/steel-converter-process.md`. Overhead cranes accept Downtime blocks since 8.9.1, with triggers counted per bridge (gotcha G43).

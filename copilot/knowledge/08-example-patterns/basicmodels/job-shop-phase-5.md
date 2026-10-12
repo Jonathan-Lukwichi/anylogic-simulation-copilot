@@ -3,6 +3,11 @@
 - **Paradigm:** DES
 - **Problem it solves:** Simulates a multi-machine job shop where pallets travel between workstations via forklifts, capturing both material handling and machining delays in a 3-D warehouse layout.
 
+> **Verified corrections (2026-10-01).** Checked against the shipped 8.9.10 example `.alp` and the tutorial text (AnyLogic Help tutorials, *AnyLogic in 3 Days*). Where they differ from the text below, these win.
+> - Real flow: … → rack dwell → `Seize cnc` → Retrieve by forklifts with *Destination is: Seized resource unit* = `cnc` (p. 187) → Delay `processing` (1 min, maximum capacity) → Release → Sink.
+> - `cnc` is a *Static* pool with *Capacity defined: By home location* = `nodeCNC1`, `nodeCNC2` (p. 185); the CNC type shows two 3D shapes whose *Visible* fields are `isBusy()` and `isIdle()` (p. 189).
+> - Remove "two job streams", "MoveTo … Release", "processing triangular 15–30" and "Warehouse Library blocks": Store and Retrieve are Material Handling Library blocks.
+
 ## Block chain
 Two job streams each follow this sequence: Source (pallet or truck arrival) → Store (queue at input buffer) → Retrieve (pull from storage) → Seize (claim forklift or CNC machine resource) → MoveTo (travel to workstation) → Delay (processing time, triangular 15–30 min) → MoveTo (travel to output) → Release (free resource) → Sink. A parallel forklift-only flow handles internal transport between storage areas using Seize / MoveTo / Delay / Release cycles before the main job resumes.
 

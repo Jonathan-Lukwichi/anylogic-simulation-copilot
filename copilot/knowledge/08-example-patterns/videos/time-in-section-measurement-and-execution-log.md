@@ -39,3 +39,7 @@ Use TimeMeasure pairs for live, in-model interval KPIs. Add execution logging wh
 ## When the co-pilot should use this
 - The user wants cycle time, time in system or time in a sub-process, or needs its distribution and not just the mean.
 - The user needs raw per-agent rows for a report, a distribution fit or an external tool (Excel, Python). Enable logging on a single Simulation run. For multi-run experiments, export replication-level KPIs instead.
+
+## Additions (8.9.10 review, 2026-10-01)
+- Chart creation wizard (8.9.6+; Help 8.9.10 *Chart creation wizard*): right-click any block or markup element of the PML, MHL, Rail, Road Traffic or Pedestrian libraries → *Create Chart…*, pick a statistic (Entries, States, Utilization, MTBF, MTTR, WIP), a chart type and metrics; the data items come pre-wired — the fastest way to instrument MHL states and reliability.
+- Every Data Set keeps only its latest *Keep up to … samples*; size it as run length ÷ recurrence + 1 before exporting (gotcha G18).

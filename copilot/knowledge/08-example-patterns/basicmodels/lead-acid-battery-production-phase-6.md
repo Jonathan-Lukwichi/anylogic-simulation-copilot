@@ -3,6 +3,10 @@
 - **Paradigm:** DES
 - **Problem it solves:** Models a multi-stage lead-acid battery assembly line that coordinates conveyors, forklifts, and overhead cranes to move, batch, combine, and assemble electrode plates and battery blocks through to finished product.
 
+> **Verified corrections (2026-10-01).** Checked against the shipped 8.9.10 example `.alp` and the tutorial text (AnyLogic Help tutorials, *AnyLogic in 3 Days*). Where they differ from the text below, these win.
+> - New: a second industrial **jib** crane `batteryCane`, used by MoveByCrane to `agvLoadingArea`; a **path-guided** TransporterFleet `AGVs` (Forklift type, capacity 1) serves MoveByTransporter to the charging area. "Two fleets" is right: free-space `forklifts` plus path-guided `AGVs`.
+> - Wrong: "overhead cranes", "a further Assembler finalises", and the "`seizeTransporter` / `releaseCrane` flags" and "`capacitySchedule` on fleet" (unused fields).
+
 ## Block chain
 Electrode plates are generated at a Source and conveyed along a belt (Convey) to a batching station (Batch) where a fixed plate count is grouped. Forklift transporters (MoveByTransporter) shuttle batched plates between stations. An Assembler merges plate groups into battery block sub-assemblies. A crane (MoveByCrane) lifts completed blocks while a second conveyor line brings battery cases through a separate Source → ConveyorEnter → Queue path. A Combine block joins the block and case streams; Hold blocks gate flow until both parts are ready. A further Assembler finalises the battery unit, which travels via conveyor to a Sink. Defective or overflow paths use a second Sink. Unbatch blocks split batches back into individual items where needed before downstream processing.
 

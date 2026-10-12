@@ -41,9 +41,9 @@ The pools stay on Main, and the block reaches them only through parameters: *Sei
 
 ## Pitfalls
 - **Per-agent properties must stay dynamic.**
-  - A parameter that feeds a per-agent field (delay time, a condition) must be a *Dynamic* parameter. It is recomputed on every access and is read as `name()`.
+  - A parameter that feeds a per-agent field (delay time, a condition) must be a *Dynamic* parameter. It is recomputed on every access and is **called with the original field's local variables**, e.g. `delay_delayTime(agent)` or `toOven_destinationNode(agent, unit)`; Source fields become argument-free calls (`source_interarrivalTime()`), and static block properties stay plain (`batch_batchSize`). Each generated parameter keeps the block's Help text as its description (8.9.10 Lead Acid Battery phase 7/8 models; corrected 2026-10-01). To let one parameter drive two inner blocks, type `toOven_fleet(agent)` into the second block's field and delete that block's own generated parameter; a parameter typed as a markup class (`BulkConveyorBelt`, `Node`) can use the *Element chooser* control.
   - A plain parameter samples `uniform(...)` once, so every pallet gets the same time.
-  - Check the generated parameters. Whether the command always makes them dynamic is *(unverified)*.
+  - Check the generated parameters: in the 8.9.10 example, per-agent fields came out `DYNAMIC` with their local variables as arguments.
 - **Enclose a clean chain.** Choose a contiguous run whose only outside links are the first block's input and the last block's output(s). How side ports of middle blocks (timeout, preemption, a branch leaving the chain) are handled is *(unverified)*: test, or keep those blocks outside.
 - **Icon visibility.** An element without **Icon** ticked is not drawn in the parent flowchart. Ports placed off the icon edge look detached.
 - **Runtime debugging.** Without the `return true;` click handler you cannot open the block during a run.

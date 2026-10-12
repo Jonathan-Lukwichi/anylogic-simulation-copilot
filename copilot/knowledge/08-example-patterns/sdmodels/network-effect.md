@@ -21,7 +21,7 @@ n/a — pure SD; no agent populations or queue resources. TotalDemand is a const
 
 ## Key settings worth copying
 - **Compatibility effect formula:** `exp( SensitivityOfAttractivenessToInstalledBase * InstalledBase / ThresholdForCompatibilityEffects )` — the sensitivity parameter is a slider for sensitivity analysis; the threshold scales the inflection point of the S-curve.
-- **Noise on attractiveness:** `normal(0, 4, 1, StandardDeviation, NoiseSeed)` applied each time step via a scheduled event, injecting stochastic variation into each product's exogenous attractiveness factor. Two independent seeds allow controlled comparison runs.
+- **Noise on attractiveness:** `normal(0, 4, 1, StandardDeviation, NoiseSeed)` applied each time step via a scheduled event, injecting stochastic variation into each product's exogenous attractiveness factor. The two `NoiseSeed` arguments are `Random` parameters with constant seeds (`new Random(2000)`, `new Random(1000)`), so the noise path is identical in every run and replication: good for controlled comparisons, but that noise then adds nothing to replication spread (gotcha G16; noted 2026-10-01).
 - **Time unit:** Day (converted from a Vensim original).
 - **Initial installed base:** separate parameters for each product, allowing asymmetric starting conditions to explore first-mover advantages.
 

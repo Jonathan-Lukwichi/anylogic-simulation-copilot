@@ -41,3 +41,6 @@ Geocode once, simulate many times. Resolve names to coordinates a single time, k
 - A user reports agents in the wrong city or in the sea, or results that differ between machines.
 - Before promising an offline, standalone or Cloud deliverable that uses a GIS map.
 - Related: supply-chain network cards `videos/pharma-supply-chain-twin-hybrid.md`, `models/corporate-education.md`.
+
+## Additions (8.9.10 review, 2026-10-01)
+- Routing has its own silent fallback: with *If route not found* = Create straight route, an unroutable trip becomes a straight line (gotcha G104; `gis-routing-source-caching-and-straight-line-fallback.md`). Map tiles and routes are cached in the model folder; offline runs need both.

@@ -3,13 +3,17 @@
 - **Paradigm:** ABM (Agent-Based Modeling)
 - **Problem it solves:** Establish the spatial scene and agent population for a 2D/3D air-defense scenario, placing defended buildings inside a protected zone before adding threat logic in later phases.
 
+> **Verified corrections (2026-10-01).** Checked against the shipped 8.9.10 example `.alp` and the tutorial text (AnyLogic Help tutorials, *AnyLogic in 3 Days*). Where they differ from the text below, these win.
+> - Scale: 100 px = 100 m (1 px = 1 m). "Scale 10 m per unit" contradicts the card's own "1 unit = 1 m".
+> - "Capacity 2 links per agent by default" is not supported by the tutorial or the model.
+
 ## Block chain
 No process-flow chain (no Source → Sink). Instead: Main agent owns a continuous 2D/3D environment (500 × 500 model units, scale 10 m per unit) → a population of 10 Building agents is injected into a polygon node called `protectedArea` at model start → Building agents carry a 3D mesh (house.dae) and bidirectional agent-link collections so they can communicate with each other and with the Main agent at runtime. All movement uses continuous-space kinematics at a default speed of 10 m/s.
 
 ## Resources
 - **Agent populations:** 10 Building agents (array-list collection, each placed randomly inside the `protectedArea` polygon node at initialization)
 - **Agent links:** one bidirectional `connections` link collection per agent (capacity 2 links per agent by default)
-- **Space:** continuous 2D/3D, 500 × 500 units, Moore neighborhood, no network auto-wiring (USER_DEF layout)
+- **Space:** continuous 2D/3D, 500 × 500 units, no network auto-wiring (USER_DEF layout); the neighbourhood setting is an unused default in continuous space
 - No ResourcePools, schedules, or service capacities — this phase is scene setup only
 
 ## Key settings worth copying

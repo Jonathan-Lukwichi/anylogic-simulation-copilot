@@ -3,6 +3,11 @@
 - **Paradigm:** DES
 - **Problem it solves:** Models a multi-stage battery manufacturing line that merges electrode sub-assemblies with battery casings using conveyors, cranes, and transporters, exposing throughput bottlenecks in material handling.
 
+> **Verified corrections (2026-10-01).** Checked against the shipped 8.9.10 example `.alp` and the tutorial text (AnyLogic Help tutorials, *AnyLogic in 3 Days*). Where they differ from the text below, these win.
+> - Real content: the first seven blocks become the custom block `PrepareElectrode`, with two instances; the cathode instance feeds Assembler **in2**, with Quantity 2 = 15; an option list `ElectrodeType`; a Batch *New batch* of `new PlatesBatch(electrodeType)`; the batch colour is chosen by type.
+> - Remove "CraneFleet", "MoveByTransporter carries the unit through an Assembler", "Hold prevents pile-up when the assembler is busy" and "second MoveByCrane + Combine (acid tray)".
+> - The generated custom-block parameters are dynamic and called with the field's locals, e.g. `delay_delayTime(agent)` (`../videos/custom-flowchart-block-from-repeated-chain.md`).
+
 ## Block chain
 Two parallel `PrepareElectrode` sub-processes (one per electrode type) each run a `Source` → internal delay pipeline at a 1.5-hour cycle, feeding finished electrodes into the main line. The main battery casing `Source` (named `batterySource`) generates casings at a fixed rate per hour. Casings ride a `ConveyorEnter` → `Convey` belt to a `Combine` block that waits for matching electrode sets. Once combined, a `MoveByCrane` block seizes a `CraneFleet` to lift the assembly to the next station. A `MoveByTransporter` block then uses a `TransporterFleet` to carry the unit through an `Assembler` block (final assembly / casing close), followed by another `Convey` segment to the `Sink`. A `Hold` block gates flow between the crane transfer and the assembler, preventing pile-up when the assembler is busy. A second `MoveByCrane` + `Combine` pair handles an intermediate merging step (e.g., acid fill tray docking). Defective items are stochastically routed out via a `randomTrue(0.01)` check (1 % scrap rate) to a secondary `Sink`.
 

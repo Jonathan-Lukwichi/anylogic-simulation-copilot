@@ -47,3 +47,7 @@ Feed the optimizer only run-aggregated scalars: one objective function, plus one
 ## When the co-pilot should use this
 - The limit is a level over time (queue, stock, WIP, occupancy) rather than a count of events. Use a time-weighted Statistics element, not the live value.
 - Whenever you write an objective or requirement expression: add the `root.` prefix, confirm the run has a finite end, and plan to re-validate the optimum.
+
+## Additions (8.9.10 review, 2026-10-01)
+- Population statistics functions — `count`, `sum`, `average`, `min`, `max` and `sumWhere(pop, value, cond)`, `averageWhere`, `minWhere`, `maxWhere` — are global functions that scan the whole population on every call (Help 8.9.10, *Functions to collect statistics on agent population*); keep them out of anything evaluated per step in a large model (gotcha G84).
+- *Create default UI* replaces everything on the optimization experiment's diagram: create it first and customise afterwards (Bass Diffusion tutorial, phase 13).

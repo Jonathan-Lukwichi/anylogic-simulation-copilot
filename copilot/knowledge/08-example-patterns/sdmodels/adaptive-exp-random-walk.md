@@ -10,7 +10,7 @@ A stochastic input (RandomWalk stock) is driven by a flow whose rate is drawn fr
 n/a — pure SD stocks and flows; no agent populations or resource pools.
 
 ## Key settings worth copying
-- **Noise distribution:** `normal(-100, 100, 0, 50)` — mean 0, std dev 50 units/day applied as a flow to drive the random walk
+- **Noise distribution:** `normal(-100, 100, 0, 50)` — the truncated form (mean 0, sd 50 before truncation to [-100, 100], so the realised sd is a little below 50), applied as a flow to drive the random walk. Caveat: a draw inside a flow is redrawn at every solver evaluation, so the noise that gets through depends on the method and step; for reuse, draw once per period into a Constant variable, as `pink-noise.md` does (gotcha G80; Big Book ch. 5 p. 11, ch. 15 p. 17).
 - **AdjustmentTime:** a plain variable (time constant) controlling smoothing speed; longer values produce slower perception updates
 - **Time unit:** Day
 - **Initial value of perceived stock:** set equal to the initial reported value so the system starts in equilibrium

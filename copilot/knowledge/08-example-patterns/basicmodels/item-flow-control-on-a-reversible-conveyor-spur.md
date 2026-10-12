@@ -23,3 +23,6 @@ No ResourcePool or staff agents. Capacity is governed by the physical length of 
 
 ## Reusable idea
 Place PositionOnConveyor markup sentinels at every decision point on a conveyor network and embed all intersection logic (block, unblock, direction reversal, flag checks) inside those sentinel actions rather than in separate flowchart blocks — this keeps the Material Handling Library layout clean while allowing arbitrarily complex custom control logic at each physical junction.
+
+## Additions (8.9.10 review, 2026-10-01)
+- The station's own *On process finished* action is a clean trigger for flipping the buffer spur back (`changeDirection()`) and releasing items parked at its end (`stopDelayForAll()` on a manual Delay); `station.isProcessing()` decides whether the next item is diverted to the buffer (8.9.10 *Reversible Conveyor Buffer*).

@@ -16,8 +16,8 @@ Each Elephant agent runs a two-state statechart: **FreeWandering** and **Thirsty
 - `uniform(-Math.PI, Math.PI)` for random heading; rejection-sample loop (up to 100 tries) ensures chosen direction is land-only
 - `uniform_discr(0, 99)` for hill centre placement; `triangular(-30, 0, 30)` for hill footprint spread
 - Time unit: Day; velocity expressed in MPS then scaled by model space
-- Moore neighbourhood (8-connected) defined on the environment, used for spatial queries
-- `AfterStepCode` pattern: per-step logic embedded directly in agent movement callback rather than a scheduled event — efficient for high-frequency cell interaction
+- Continuous space: the environment's neighbourhood setting does not apply here (Help 8.9.10 *Agent*: the Neighborhood type is shown only for discrete space) (corrected 2026-10-01 from the 8.9.10 `.alp`)
+- Per-step logic in the agent's *On step* action under *Enable synchronous steps* (Help 8.9.10 *Agent synchronization*; stored as `AfterStepCode` in the `.alp`) — not a movement callback
 
 ## KPIs instrumented
 - Vegetation coverage (sum or mean of `vegetation[][]` over all cells) tracked over time

@@ -3,6 +3,12 @@
 - **Paradigm:** SD (System Dynamics)
 - **Problem it solves:** Models how a new product spreads through a market via advertising and word-of-mouth, tracking the transition of a population from potential adopters to active adopters over time.
 
+> **Verified corrections (2026-10-01).** Checked against the shipped 8.9.10 example `.alp` and the tutorial text (AnyLogic Help tutorials, *AnyLogic in 3 Days*). Where they differ from the text below, these win.
+> - `SwitchTime` is the Timeout of `with_advertising → without_advertising`, whose entry action sets `MonthlyExpenditures = 0`; `adoptFraction(t)` is the seasonal lookup `demand(getMonth())/200` (with the off-by-one of gotcha G64) — not "SwitchTime … via adoptFraction(time())".
+> - Word of mouth is `Adopters*ContactRate*AdoptionFraction*PotentialAdopters/TotalPopulation` (the card dropped `/TotalPopulation`).
+> - The phase's point is an **Optimization experiment**: minimise `root.TotalExpenditures`; `MonthlyExpenditures` continuous 0–10,000; `SwitchTime` discrete 0–1.5 in steps of 0.0833; requirement `root.Adopters >= 80000`; stop at 1.5 years; 500 iterations; no replications (so the optimum is one run per plan — gotcha G11).
+> - ContactRate (100) and ProductLifeTime (2) carry per-minute / minute tags in the `.alp` while the model runs in years; the tutorial means per year and years (see phase 1 note).
+
 ## Block chain
 Two stock variables drive the model: **PotentialAdopters** (initialized to TotalPopulation) drains into **Adopters** via the **AdoptionRate** flow. AdoptionRate is the sum of two sub-flows:
 - **AdoptionFromAd** — advertising-driven adoption: `PotentialAdopters * AdEffectiveness`, where AdEffectiveness scales with monthly marketing spend.

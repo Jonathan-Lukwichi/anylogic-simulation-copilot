@@ -3,6 +3,9 @@
 - **Paradigm:** SD (System Dynamics)
 - **Problem it solves:** Models how a new product spreads through a fixed population via two channels — advertising pressure and word-of-mouth — capturing the classic S-curve of market adoption.
 
+> **Verified corrections (2026-10-01).** Checked against the shipped 8.9.10 example `.alp` and the tutorial text (AnyLogic Help tutorials, *AnyLogic in 3 Days*). Where they differ from the text below, these win.
+> - "ContactRate 100 per minute (treated as per year)" and "ProductLifeTime 2 minutes" repeat unit tags stored in the `.alp`; the tutorial defines 100 per year and 2 years. Whether a unit-tagged parameter is converted when an SD formula reads it is *(unverified — a two-minute `traceln` test settles it)*; follow the tutorial's units.
+
 ## Block chain
 Two stock variables partition the population at all times:
 - **PotentialAdopters** (stock) — starts at TotalPopulation; drains at AdoptionRate.

@@ -14,13 +14,13 @@
 |---|---|
 | Point node | all at the same point, so they overlap |
 | Rectangular/polygonal node, layout *Random* | at random spots, any number |
-| Rectangular/polygonal node, layout *Arranged* | on a grid that fits the node (the maximum is usually the block's capacity); a new agent takes the first free cell |
+| Rectangular/polygonal node, layout *Arranged* | laid out on a grid sized to the node (normally up to the block's capacity); a new agent takes the first free cell |
 | Node with attractors | at the attractor positions |
 | Path on a Delay, Conveyor, etc. | travelling along the path, rotated to the segment's angle |
 | Path on Queue, or on the queue inside Service, Seize, Batch or Match | standing in line: the **head (position 0) is at the path's END point**; spacing = path length / (capacity − 1), fixed at startup |
 
 ## Resources
-Resource units animate the same way (home and location nodes). When a unit is attached to an agent, it is drawn beside the agent with an offset (Help 8.9).
+Resource units animate the same way (home and location nodes). A unit attached to an agent appears next to it, slightly offset (Help 8.9).
 
 ## Key settings worth copying
 - **Queue path direction.** Draw a queue path from the **tail toward the server**, so the head of the line stands at the server.
@@ -42,3 +42,6 @@ Treat animation as a thin binding layer on top of verified logic: build the flow
 - **Triggers:** the user asks "why can't I see my agents?", reports agents stacked or queued backwards, or wants 2D/3D animation of a PML model.
 - **Build phase:** Phase 5, after the logic is verified. This mirrors G4's "logic first, animate later".
 - **Related:** `anylogic-gotchas.md` G4 and `videos/3d-scene-z-order-and-lighting.md`.
+
+## Additions (8.9.10 review, 2026-10-01)
+- Delay's *Restore agent location on exit* (`restoreEntityLocationOnExit`): unticked, the agent stays where the Delay's path or node left it — the ConveyorEnter demo lifts a pallet along a path this way (Help 8.9.10 *Delay*).

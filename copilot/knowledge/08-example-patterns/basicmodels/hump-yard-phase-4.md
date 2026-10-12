@@ -3,6 +3,11 @@
 - **Paradigm:** DES
 - **Problem it solves:** Simulates the full operational sequence of a rail hump yard where incoming trains are broken apart, individual cars are sorted by destination, and outbound trains are reassembled — capturing the multi-stage decouple/move/couple choreography in a single model.
 
+> **Verified corrections (2026-10-01).** Checked against the shipped 8.9.10 example `.alp` and the tutorial text (AnyLogic Help tutorials, *AnyLogic in 3 Days*). Where they differ from the text below, these win.
+> - Not "two TrainSource instances, one per entry lead": the second, `newLoco`, is a one-car locomotive source in *inject()* mode, placed at `tracklength - 15` m from the start of `trackReadyToDepart`.
+> - Not "SelectOutput routes cars by destination": the destination is the TrainMoveTo target `departurePointOnTrack(train)`, which tests the cut's first car with `instanceof`. The SelectOutputs test `agent.size() > 1` (more cars to hump) and `agent.size() < 8`; the latter's *On exit* (false) runs `trackReadyToDepart = agent.getTrack(true); newLoco.inject();`.
+> - Missing: `carsOfSameType(train)` humps a block of like cars at once; departing trains use Route and Target *not specified*, so they follow the switches and are removed when they leave the yard (Help *TrainMoveTo*; gotcha G52).
+
 ## Block chain
 Inbound trains arrive via TrainSource at a fixed interarrival interval and enter the yard on a dedicated entry track. A series of TrainMoveTo blocks navigate each train to the hump lead. TrainDecouple blocks split the consist car by car (or in cuts); SelectOutput blocks route individual cars to classification tracks based on destination. Short Delay blocks represent dwell time while cars roll down the hump or wait in a bowl track. On the departure side, TrainCouple blocks reassemble cars into new outbound trains, which then move via additional TrainMoveTo steps to departure tracks and exit through TrainDispose.
 

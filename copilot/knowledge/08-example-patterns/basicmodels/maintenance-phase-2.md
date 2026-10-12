@@ -3,6 +3,9 @@
 - **Paradigm:** ABM
 - **Problem it solves:** Optimising the dispatch of mixed transport assets (trucks and helicopters) from a single maintenance centre to service a field of 25 offshore wind turbines.
 
+> **Verified corrections (2026-10-01).** Checked against the shipped 8.9.10 example `.alp` and the tutorial text (AnyLogic Help tutorials, *AnyLogic in 3 Days*). Where they differ from the text below, these win.
+> - `center` is a single MC agent; trucks run at 70 km/h, helicopters at 200 km/h; Main's scale is 5 px per km (see phase 1).
+
 ## Block chain
 The model is built around four agent types that interact in continuous 2-D space. A central `MC` (Maintenance Centre) agent acts as the home base; it holds populations of `Truck` (5 units) and `Helicopter` (2 units) agents, both extending the abstract `Transport` superclass. The 25 `Turbine` agents are scattered across the field. When a turbine needs attention the maintenance centre selects an available transport vehicle, dispatches it to the turbine location, performs the service, and the vehicle returns to base. The `Transport` superclass carries a `type` parameter (enum `TransportType`: AUTO vs AVIA) that drives routing decisions — AUTO dispatches trucks, AVIA dispatches helicopters — enabling quick swap-and-compare experiments. Agent movement uses continuous space at 10 m/s with a `setTransportBase()` startup function that anchors all vehicles to the MC coordinates. Time unit is Hours; the run stops at t = 100 h.
 

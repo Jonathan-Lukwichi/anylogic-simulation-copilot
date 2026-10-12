@@ -10,7 +10,7 @@ The study area is divided into a 2D rectangular grid of Patch agents. Each Patch
 ## Resources
 
 - **Agent population:** `patches` — a 2D grid of Patch agents; grid size set at model level
-- **Neighbour links:** fraction = 0.95 (near-full neighbourhood connectivity used in diffusion sum)
+- **Neighbourhood:** Main is a 20 × 20 discrete space with the Euclidean (4-cell) neighbourhood and a User-defined network; the migration sum loops over `getNeighbors()`, guarded against null (gotcha G110) (corrected 2026-10-01 from the 8.9.10 `.alp`).
 - **No external resource pools** — capacity is implicit in the continuous stocks within each patch
 
 ## Key settings worth copying
@@ -19,7 +19,7 @@ The study area is divided into a 2D rectangular grid of Patch agents. Each Patch
 - `MaturationAge` — years spent in immature stage before joining mature stock
 - `MigrationDiffusionCoefficient` — scales the net cross-patch flow; increase for faster spatial spreading
 - `uniform(100)` — random initial stock seeding across all patches to avoid uniform initial conditions
-- `NeighborLinkFractionCode = 0.95` — controls what fraction of neighbourhood links are active
+- Migration exchanges with the 4 Euclidean neighbours returned by `getNeighbors()` (an earlier version cited a link fraction of 0.95, which is not in the model).
 - Time unit: **Year**; rates expressed as PER_YEAR throughout
 
 ## KPIs instrumented

@@ -3,6 +3,10 @@
 - **Paradigm:** DES
 - **Problem it solves:** Models a multi-stage lead-acid battery assembly line combining electrode preparation, conveyor transport, crane handling, forklift logistics, and final cell assembly to evaluate throughput and equipment utilisation.
 
+> **Verified corrections (2026-10-01).** Checked against the shipped 8.9.10 example `.alp` and the tutorial text (AnyLogic Help tutorials, *AnyLogic in 3 Days*). Where they differ from the text below, these win.
+> - The phase's point is the **Fluid Library**. Inside `PrepareElectrode` the electrode Source becomes `FluidSource` (limited amount 0.075 m³, custom batch colour) → `BulkConveyor` (10 m, 1 m/s, max input 0.0001 m³/s, on a Bulk Conveyor Belt markup passed in as a parameter) → `FluidToAgent` (0.0002 m³ per electrode, i.e. 375 electrodes per roll); a cyclic event `addRoll` (every 2 h) calls `metalSource.inject(0.075)`.
+> - Remove "Hold releases only when both electrode streams are available" and "Combine pairs the two streams": the Assembler takes 15 + 15.
+
 ## Block chain
 Battery components (anodes and cathodes) are generated at a Source and routed through two parallel PrepareElectrode sub-processes — one for each electrode type. Prepared plates travel on Conveyors via ConveyorEnter blocks and are staged in Queues. A MoveByCrane block lifts batches between work areas; Hold blocks gate flow until a matching set of anodes and cathodes is ready. Combine blocks pair the two electrode streams, and Assembler blocks join electrode groups into battery cells. Forklifts (MoveByTransporter) shuttle heavier sub-assemblies between stations. Finished batteries exit through Sink blocks; rejected or overflow paths have their own Sink exits.
 

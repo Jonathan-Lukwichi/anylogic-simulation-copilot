@@ -3,6 +3,10 @@
 - **Paradigm:** DES
 - **Problem it solves:** Models a conveyor-based electrode plate manufacturing line where individual plates are produced, transported on a conveyor, and batched into groups before leaving the system.
 
+> **Verified corrections (2026-10-01).** Checked against the shipped 8.9.10 example `.alp` and the tutorial text (AnyLogic Help tutorials, *AnyLogic in 3 Days*). Where they differ from the text below, these win.
+> - One Source (200 electrodes every 1.5 h; Forced pushing off, *wait*) → Convey (*Leave conveyor on exit*) → Batch 100 → Sink. The pasting machine is a **Station** (1 s) whose *On process finished* sets `agent.color`.
+> - There is no secondary Source feeding a parallel Batch; the "`throughput` parameter" KPI and the "10 m/s conveyor" are unsupported.
+
 ## Block chain
 Electrodes (agent type) are created by a **Source** in bulk arrivals (200 units every 1.5 hours) → placed on a **Conveyor** (Material Handling library `Convey` block) that moves items at 10 m/s along a physical layout path → a **Batch** block collects 100 individual plates into a single `PlatesBatch` agent → the batch exits through a **Sink**. A secondary **Source** feeds a parallel `Batch` that groups plates into a different aggregate, representing a pasting-machine station on the conveyor line.
 

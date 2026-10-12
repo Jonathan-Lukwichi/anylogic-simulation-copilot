@@ -3,6 +3,9 @@
 - **Paradigm:** ABM
 - **Problem it solves:** Dispatch limited repair vehicles (trucks and helicopters) across a geographically dispersed wind-farm to service failed turbines as efficiently as possible.
 
+> **Verified corrections (2026-10-01).** Checked against the shipped 8.9.10 example `.alp` and the tutorial text (AnyLogic Help tutorials, *AnyLogic in 3 Days*). Where they differ from the text below, these win.
+> - The helicopter speed is 200 km/h, not 10 m/s. The return leg `MovingToMC` ends on *Agent arrival*, not a timeout. Per the tutorial the phase-3 statechart is still an empty skeleton; its triggers are set in phase 6.
+
 ## Block chain
 The model contains five distinct agent types living in a shared continuous 2-D space. A central maintenance depot (MC) acts as the base from which repair missions originate. Twenty-five Turbine agents are scattered across the landscape; when a turbine breaks down it raises a ServiceRequest object that specifies which transport mode is required (AUTO for truck, AVIA for helicopter). A fleet of five Trucks and two Helicopters — both extending a shared Transport base class — each run an identical four-state statechart:
 

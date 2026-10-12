@@ -8,12 +8,12 @@
 Two interleaved flows work together:
 
 **Pedestrian flow:**
-PedSource → PedGoTo (waiting area) → PedWait → PedGoTo (platform) → PedEnter (board train) → PedGoTo (seat inside train) → PedWait (ride) → PedExit (alight) → PedGoTo (exit zone) → PedSink
+PedSource → PedWait (waiting area) → PedGoTo (platform) → PedExit (leave the platform space) → PedEnter (enter the train's interior space) → PedGoTo (to a seat) → PedExit ("sit" — leave pedestrian space) → *carried inside the train* → PedEnter ("leave car" — re-enter pedestrian space after the drop-off) → PedGoTo (exit) → PedSink
 
 **Train / vehicle flow:**
-Source (one train agent) → Wait (hold at station during boarding) → Pickup (collect all boarded passengers) → MoveTo (GIS destination node — depart) → MoveTo (return station node) → Dropoff (release passengers back to pedestrian space) → Enter (back into station logic) → Sink
+Source → MoveTo → Pickup (seated passengers arrive through its pickup input) → Exit, then the journey on the GIS map (Enter → MoveTo to the destination → Exit), then Enter → MoveTo → Dropoff (passengers leave through its drop-off output into PedEnter) → Wait → Sink. Exit/Enter pairs hand the train between the station part and the GIS part.
 
-The two flows are coupled: the train's Pickup triggers the pedestrian PedEnter, and its Dropoff triggers PedExit, so passengers physically travel inside the train agent rather than independently. *(Unverified 2026-09-28: AnyLogic does not move an agent directly between spaces — it must leave one flow/space before entering another (Help 8.9.9, troubleshooting). The usual order for walkers riding a vehicle is PedExit → Queue → Pickup … Dropoff → PedEnter (`../videos/rail-shuttle-pedestrian-boarding.md`); the order above holds only if the train has its own interior pedestrian space. The example model was not available offline — confirm the direction in AnyLogic before copying it.)*
+The flows are coupled through the Pickup/Dropoff pair: a passenger first leaves pedestrian space (PedExit) and enters the Pickup's pickup input, rides inside the train agent, and after the Dropoff re-enters pedestrian space (PedEnter). Boarding itself is a move between two pedestrian spaces — platform → train interior — done as PedExit → PedEnter, because an agent cannot pass directly from one space to another. *(Verified 2026-09-30 against the example model shipped with AnyLogic 8.9.10 — block chain and connector ports read from its .alp file.)*
 
 ## Resources
 

@@ -16,8 +16,8 @@
    - **On repair:** `conveyorSouthEntrance.run(); lamp.setFillColor(yellowGreen);`
    - **Repair type = Send to flowchart:** `ResourceTaskStart` → `Service` (engineer, 4 min, *Send seized resources* to a node beside the conveyor) → `ResourceTaskEnd`.
 4. **Breakdown, native in 8.9 (beyond the video; Help and Javadoc 8.9).**
-   - **Conveyors, stations and jib cranes** have a *Maintenance, failures, breaks → Downtime block(s)* property and report `mtbf(units)` / `mttr(units)`. Attach a PML `Downtime` block directly instead of a proxy pool.
-   - **Transfer tables, turntables, turn stations, lifts and overhead cranes** only offer `fail()` / `repair()` / `isFailed()`. Call these from your own failure logic.
+   - **Conveyors, stations, jib cranes and overhead cranes** have a *Maintenance, failures, breaks → Downtime block(s)* property and report `mtbf(units)` / `mttr(units)`; on a multi-bridge overhead crane the triggers count per bridge (release notes 8.9.1; Help 8.9.10 *Overhead crane*, *Downtime* — corrected 2026-10-01). Attach a PML `Downtime` block directly instead of a proxy pool. A downtime can also be forced from code with `downtime.startTask(unit)` (in the 8.9.10 class; missing from Help's function table).
+   - **Transfer tables, turntables, turn stations and lifts** only offer `fail()` / `repair()` / `isFailed()`. Call these from your own failure logic.
    - The conveyor's own transport task has priority 0, so a Downtime's priority decides how the conveyor reacts:
    - **priority < 0:** the downtime waits until the belt is empty;
    - **priority > 0 and may preempt:** the conveyor stops at once;

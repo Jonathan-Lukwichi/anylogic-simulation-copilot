@@ -47,3 +47,7 @@ To make pedestrians obey any external signal, have the controller's state-change
 ## When the co-pilot should use this
 - Signalised crossings, stadium or campus crowds crossing roads, level crossings, and any model that mixes vehicles with pedestrians.
 - A user reports that pedestrians walk through cars, or that cars ignore people on the crossing.
+
+## Additions (8.9.10 review, 2026-10-01)
+- *Defines the mode for* has three options (Help 8.9.10 *TrafficLight*): Intersection's stop lines (default), Intersection's lane connectors (lanes of one road in different phases — the one for protected turns), and Specified stop lines (crossings).
+- API: `switchToNextPhase()` (for a phase of infinite duration), `getCurrentPhaseIndex()` (0-based, −1 when off), `getPhaseDuration(i)`, `getCurrentPhaseRemainingTime()`, `getCurrentSignal(stopLine)` / `getCurrentSignal(laneConnector)` (null when off or not controlled), and `turnOn()` / `turnOff()`, which also fire *On phase change*. `turnOn(offset)` / `turnOn(offset, units)` starts several junctions with fixed offsets — a simple green wave (8.9.10 *Traffic Light* example).

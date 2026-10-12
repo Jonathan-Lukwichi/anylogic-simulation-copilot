@@ -6,11 +6,11 @@
 ## Block chain
 Three independent sub-flows share the same pattern skeleton:
 
-1. **Count-based blocking** — Source → Queue → Hold (auto-blocks after N agents) → MoveTo → Sink. The Hold accumulates arriving agents and releases them only once the built-in counter reaches its limit, modelling a batch-release gate.
+1. **Count-based blocking** — Source → Queue → Hold (auto-blocks after N agents) → MoveTo → Sink. *Block automatically after N agents* lets N agents **through** and then closes until `unblock()` is called; with *Initially blocked* and N = 1, each `unblock()` releases exactly one agent — a one-per-signal gate. The Hold never holds agents inside; they wait in the Queue before it (Help 8.9.10, *Hold*; corrected 2026-10-01).
 
 2. **Manual mode** — Source → Hold (manually controlled) → Delay → MoveTo → Sink. A button or timed event calls `hold.unblock()` / `hold.block()` from Java code, giving full programmatic control over when the gate opens and closes.
 
-3. **Conditional mode** — Source → Hold (condition-based) → Queue → MoveTo → Sink. The Hold polls a Boolean expression; when it evaluates to true the gate opens and queued agents pass through, closing again when the condition turns false.
+3. **Conditional mode** — Source → Hold (condition-based) → Queue → MoveTo → Sink. The field is a **Blocking condition**: each arriving agent is tested against it, and **true blocks** the agent. It is not polled — after anything the condition reads changes, call `hold.recalculateConditions()` so waiting agents are re-tested (Help 8.9.10, *Hold*; corrected 2026-10-01; gotcha G85).
 
 All three variants include MoveTo blocks, indicating agents move through a 2-D space (pedestrian or material-handling context).
 
@@ -18,9 +18,9 @@ All three variants include MoveTo blocks, indicating agents move through a 2-D s
 n/a — no ResourcePool or Seize/Release blocks; capacity control is handled entirely by the Hold gate logic.
 
 ## Key settings worth copying
-- **Auto-block capacity:** integer threshold N on the Hold block triggers automatic closure once N agents are inside.
+- **Auto-block count:** integer N on the Hold (`nEntitiesForSelfBlock`) closes the gate after N agents have passed.
 - **Manual unblock call:** `holdBlock.unblock()` invoked from a button action or scheduled timeout; pair with `holdBlock.block()` to re-close.
-- **Condition expression:** a Boolean Java expression (e.g., `time() > openTime && queue.size() < maxBatch`) evaluated by the Hold at each re-check interval.
+- **Blocking condition:** a Boolean expression that reads "must wait" (e.g., `time() < openTime || queue.size() >= maxBatch`), evaluated for each arriving agent; call `recalculateConditions()` wherever its inputs change.
 - **Time unit:** Seconds — keep consistent when specifying inter-arrival rates and delay durations.
 - **Spacing distribution:** `uniform(1, 3)` seconds used for at least one arrival spacing, giving light random variability without heavy tails.
 

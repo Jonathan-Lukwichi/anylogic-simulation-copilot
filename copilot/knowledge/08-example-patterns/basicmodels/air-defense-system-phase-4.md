@@ -3,6 +3,14 @@
 - **Paradigm:** ABM (Agent-Based Modeling)
 - **Problem it solves:** Simulates an aerial attack scenario where bombers drop bombs on city buildings while radar-guided interceptor missiles attempt to destroy incoming threats before they reach their targets.
 
+> **Verified corrections (2026-10-01).** Checked against the shipped 8.9.10 example `.alp` and the tutorial text (AnyLogic Help tutorials, *AnyLogic in 3 Days*). Where they differ from the text below, these win.
+> - Speeds: bombers 600 km/h, missiles 900 km/h (not 10 m/s).
+> - The mission is a cyclic event, first at t = 0, recurrence `uniform(5, 12)` s — not "rate 1/minute, first arrival after 1 minute".
+> - There is no "bomb release delay uniform(5, 12)": the bomb is created in the ToTarget → Away transition, on arrival over the target.
+> - Radars engage **bombers only**, not bombs. The hit is `target.statechart.receiveMessage(...)`, not a send — a message from a missile that then removes itself would never arrive (gotcha G76).
+> - The pursuit is an `Adjust` self-loop every 0.05 s; the radar scan runs in *On step* under Main's synchronous steps (1 s).
+> - `throughput` is a property of a node markup element, not a statistic — ignore any KPI named after it.
+
 ## Block chain
 Five custom agent types interact spatially on a continuous 2-D/3-D environment:
 

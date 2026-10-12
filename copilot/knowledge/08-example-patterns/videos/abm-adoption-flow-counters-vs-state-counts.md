@@ -48,3 +48,6 @@ Levels come from state counts. Flows come from counters at the events that move 
 - Any ABM KPI phrased as "how many adopted, churned, got infected, ever used": cumulative incidence vs prevalence.
 - Reviewing trackers that difference `count()` snapshots, or KPI code with `max(0, …)` applied to a difference.
 - ABM verification: check state-count conservation, the ABM counterpart of DES `source.count()` = exits + WIP (G37).
+
+## Additions (8.9.10 review, 2026-10-01)
+- Performance side: population statistics scan every agent at every call (Help 8.9.10 *Collecting statistics on agents*); for large N the entry/exit counters of this card are also the fast option. Per-period snapshots (age pyramids, family sizes) are rebuilt with a Histogram Data's `reset()` + `add()` each period (`bigbookmodels/kinship-model-with-customized-statistics.md`).

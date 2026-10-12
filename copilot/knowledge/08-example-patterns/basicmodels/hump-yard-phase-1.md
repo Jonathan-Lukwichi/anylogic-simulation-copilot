@@ -3,6 +3,11 @@
 - **Paradigm:** DES
 - **Problem it solves:** Models the physical track layout and movement logic of a rail hump yard, where inbound trains are pushed over a hump and individual cars roll down into sorting tracks.
 
+> **Verified corrections (2026-10-01).** Checked against the shipped 8.9.10 example `.alp` and the tutorial text (AnyLogic Help tutorials, *AnyLogic in 3 Days*). Where they differ from the text below, these win.
+> - ALL_TO_ALL switches are not N-to-M "fan-out hubs" that replace routing logic: all-to-all is simply the default switch type (Help 8.9.10 *Switch*). With three tracks, a train coming from either branch always continues to track 0, and branch-to-branch moves are impossible; fan-out to many tracks is a ladder of switches, and TrainMoveTo sets switch states along its route.
+> - Drawing rules: two of the three angles at a switch must be obtuse, one branch per point (Big Book ch. 9 p. 2); the first track offers a 2 px/m scale (gotcha G26).
+> - The "three RailStopline signals" are *Position on Track* markup elements (stored under the legacy XML tag `RailStopline`), not signals.
+
 ## Block chain
 Inbound train enters via **trackEntry** and halts at **stopLineEntry**. A locomotive pushes the cut over the hump via **railwayTrack** / **trackArrival**, stopping at **stopLineArrival**. Cars are uncoupled and roll past **railwaySwitch** (ALL_TO_ALL) through **railwayTrack2** toward the classification bowl, halting at **stopLineHump**. A second ALL_TO_ALL switch (**railwaySwitch1**) routes individual cars onto designated sorting tracks. All tracks are modelled as bidirectional **RailTrack** path objects inside a **Railyard** network.
 

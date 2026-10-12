@@ -57,3 +57,6 @@ Derive OEE from time accounting plus two counts. Prove the instrumentation with 
 ## When the co-pilot should use this
 - The intake KPI list names OEE, equipment effectiveness or TPM, or the study compares maintenance strategies. Maintenance-strategy comparisons commonly use OEE as the comparison KPI.
 - At intake item D12, ask for nameplate cycle times and planned production time. Without them, P and A are undefined.
+
+## Additions (8.9.10 review, 2026-10-01)
+- `Delay.statsUtilization` is size ÷ capacity over time (Help 8.9.10), so it means nothing on a Delay with *Maximum capacity* ticked; a Queue's only built-in statistic is `statsSize` (length).

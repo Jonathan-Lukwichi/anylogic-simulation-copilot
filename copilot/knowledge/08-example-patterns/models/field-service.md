@@ -15,7 +15,7 @@ Two agent types coordinate through message-passing. **EquipmentUnit** agents are
 
 ## Key settings worth copying
 - Time unit: Day
-- Failure inter-arrival: `exponential( NormalFailureRate * max(1, timeSinceMtce/MaintenancePeriod) * max(1, age()/(3*MaintenancePeriod)) )` — rate compounds with overdue lag and age
+- Failure inter-arrival: `exponential( NormalFailureRate * max(1, timeSinceMtce/MaintenancePeriod) * max(1, age()/(3*MaintenancePeriod)) )` — the formula *intends* the rate to compound with overdue lag and age, but see the correction below
 - Repair duration: `triangular( RepairTypicalTime*0.5, RepairTypicalTime, RepairTypicalTime*2.5 )`
 - Replacement duration: `triangular( ReplacementMeanTime*0.5, ReplacementMeanTime, ReplacementMeanTime*1.5 )`
 - Maintenance duration: `triangular( MaintenanceMeanTime*0.5, MaintenanceMeanTime, MaintenanceMeanTime*1.5 )`
@@ -31,3 +31,6 @@ Two agent types coordinate through message-passing. **EquipmentUnit** agents are
 
 ## Reusable idea
 Encode degradation as a multiplicative rate modifier on each statechart's timeout rather than a separate failure-mode model. Expressing failure rate as `baseRate * f(maintenanceLag) * f(age)` — where each factor is clamped to 1 at minimum — means a well-maintained new unit behaves normally, an overdue unit fails faster, and an aged overdue unit fails fastest. This single expression inside the statechart's self-loop timeout replaces what would otherwise require nested sub-models or separate state-dependent rate tables.
+
+## Correction (8.9.10 review, 2026-10-01)
+In the shipped 8.9.10 model the failure time is drawn once, by a Timeout on entering Working, and at that moment the unit is never overdue (maintenance was just done or is not yet due), so the overdue factor is always 1; only the age factor applies, and only at state entry. In the Big Book's *Field Service Phase 5/6* the Rate is re-read only when the unit's maintenance timer fires, again when the overdue factor is 1 *(inferred from Help 8.9.10 trigger semantics and the model settings; not run-tested)*. So "an overdue unit fails faster" is the formula's intent, not the shipped behaviour. To make the effect real, refresh the rate (`bigbook/abm-time-dependent-hazard-rate-refresh.md`, gotcha G70). The repair `triangular(0.5·T, T, 2.5·T)` averages 1.33 T, not T (G55). Related cards: `bigbook/abm-design-recipe-states-messages-and-dispatcher.md` (message design, dispatcher races), `bigbook/abm-runtime-resizing-of-a-busy-agent-population.md` (the crew slider).

@@ -11,12 +11,11 @@ n/a
 
 ## Key settings worth copying
 - Mouse click event wired to the root agent's presentation shape (or a transparent rectangle covering the canvas)
-- Coordinate retrieval via the built-in `getX()` / `getY()` methods available inside mouse-action code blocks
-- Time unit set to Day (irrelevant for this pattern but confirms the model runs in real-time interaction mode)
+- Coordinate retrieval through the local variables of the shape's *On click* action: `mouseX = clickx; mouseY = clicky;` (8.9.10 model and Help *How-to*). `clickx` / `clicky` are relative to the clicked shape — add `self.getX()` / `self.getY()` for coordinates in the container (corrected 2026-10-01; an earlier version named `getX()` / `getY()` as the source)
 - Display updated immediately within the same action callback — no scheduling needed
 
 ## KPIs instrumented
 n/a (the output is purely the live x/y coordinate display on screen)
 
 ## Reusable idea
-Wire a mouse-click action to a transparent overlay shape and call `getX()`/`getY()` inside the handler to convert raw screen clicks into model-space coordinates — a lightweight way to add point-and-click interactivity (e.g., placing agents, selecting zones, or logging positions) without any external UI framework.
+Wire a mouse-click action to a transparent overlay shape and read `clickx` / `clicky` (plus the shape's own `getX()` / `getY()`) inside the handler to convert raw screen clicks into model-space coordinates — a lightweight way to add point-and-click interactivity (e.g., placing agents, selecting zones, or logging positions) without any external UI framework.

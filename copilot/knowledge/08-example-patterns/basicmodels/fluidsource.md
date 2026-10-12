@@ -22,3 +22,6 @@ n/a — no resource pools or agent populations; the model works purely with cont
 
 ## Reusable idea
 The inject-vs-rate duality: any fluid or bulk-material model benefits from offering both a continuous rate mode (steady-state flow) and an on-demand injection mode (event-driven pulse). Exposing both via a runtime toggle — rather than two separate models — lets analysts test surge scenarios (e.g., emergency tank fill, demand spike) without rebuilding the model.
+
+## Additions (8.9.10 review, 2026-10-01)
+- To start a new batch from code mid-stream, see `pipeline.md` (`set_customBatch(...)`); this card covers `inject()` and the rate/capacity modes. The one-argument `set_rate(x)` takes m³ per second (gotcha G61).

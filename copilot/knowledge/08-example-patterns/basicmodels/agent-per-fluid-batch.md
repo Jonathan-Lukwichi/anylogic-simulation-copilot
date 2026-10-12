@@ -24,3 +24,6 @@ n/a — the example is illustrative rather than metric-focused; no explicit KPI 
 
 ## Reusable idea
 Use **FluidConvert + FluidToAgent** as a "batch detector" bridge: let your process run as an efficient continuous fluid for as long as material is flowing, then automatically harvest one agent per completed batch the moment the valve closes or the inflow stops. This avoids modelling every unit as a separate agent during bulk transport while still giving you a discrete, attribute-carrying entity (with colour, size, or any custom data) for downstream DES logic such as quality checks, labelling, or order tracking.
+
+## Additions (8.9.10 review, 2026-10-01)
+- BulkConveyor counts sections of different density as separate batches, and gaps as batches of `null` type — both appear in `numberOfBatches()` (Help 8.9.10 *BulkConveyor*).

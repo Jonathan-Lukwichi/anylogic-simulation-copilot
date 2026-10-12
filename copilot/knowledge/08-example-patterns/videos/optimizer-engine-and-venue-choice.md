@@ -7,8 +7,8 @@
 | Option | Use when | Watch out |
 |---|---|---|
 | Optimization experiment, engine **OptQuest** | ≤ 7 levers and ≤ 500 iterations, or you need varying replications | The bundled licence caps OptQuest at 7 variables and 500 iterations. Exporting an OptQuest experiment as a standalone app is a paid option (Professional). |
-| Optimization experiment, engine **Genetic** (AnyLogic 8.8.4+) | Many levers, long searches, or a model you will export to a client | Fixed replication count only. |
-| **Custom experiment** (code only, no UI) | Constraints or bounds built from data; 100+ parameters set in loops; logging every iteration or replication (e.g. to CSV); faster headless runs | You own the loop and the bookkeeping. The OptQuest route through `ExperimentOptimization` is documented as Professional-only. |
+| Optimization experiment, engine **Genetic** (AnyLogic 8.8.4+) | Many levers, long searches | Fixed replication count only. Since 8.9.10, exporting any model as a standalone application is itself a paid option (release notes). |
+| **Custom experiment** (code only, no UI) | Constraints or bounds built from data; 100+ parameters set in loops; logging every iteration or replication (e.g. to CSV); faster headless runs | You own the loop and the bookkeeping. Help 8.9.10 (*Editions*) lists the Custom experiment itself among Professional features, so the OptQuest and Genetic routes in code share that limit. |
 | **AnyLogic Cloud** optimization | The search is compute-bound and needs wide parallelism | KPIs must be Output elements. The plain "Optimization" type runs each candidate once. |
 
 - **Quality is similar.** In the presenter's experience, OptQuest (OptTek, proprietary, scatter-search family) and Genetic (built by AnyLogic on the Java jMetal library) give very similar answers. Choose on limits, licensing and control, not on answer quality.
@@ -19,14 +19,15 @@ n/a
 
 ## Key settings worth copying
 - **Engine choice (GUI):** set the **Optimization engine** property of the Optimization (or Calibration) experiment to OptQuest or Genetic.
-- **Custom-experiment skeleton.** These names are verified; check exact signatures in your version's Javadoc, and start from AnyLogic's "Optimization in Custom Experiment" demo model.
+- **Custom-experiment skeleton** (corrected 2026-10-01 against the 8.9.10 demos *Optimization in Custom Experiment* and *Calibration from Within Simulation*; `basicmodels/optimization-in-custom-experiment.md`, `basicmodels/calibration-from-within-simulation.md`). Check exact signatures in your version's Javadoc.
   - `ExperimentOptimization.createOptimization(Engine engine, OptimizationCallback callback)` returns an OptQuest optimization.
   - The callback `evaluate(COptQuestOptimization optimization, COptQuestSolution solution, Engine engine)` runs once per iteration or replication. Inside it:
-    1. `Main root = engine.createRoot();`
-    2. set the model parameters from each variable's `GetCurrentValue()`;
+    1. create the root: `createRoot(engine)` inside the experiment, or `new Main(engine, null, null)` as the demos do — `Engine` has no `createRoot()` (an earlier version of this card said `engine.createRoot()`);
+    2. set the model parameters from `solution.GetVariableValue(variable)`;
     3. `engine.start(root); engine.runFast();`
-    4. report the result with `optimization.SetCurrentObjectiveValue(value)`;
+    4. report the result with `solution.SetObjectiveValue(objective, value)`, the objective created as a `COptQuestUserControlledObjective`;
     5. `engine.stop();`
+  - A fresh engine has its own stop time, seed and simultaneous-event order: set them to match the Simulation experiment (gotcha G118).
   - `monitorStatus(...)` runs after each iteration, once feasibility is known.
   - Variables such as `COptQuestContinuousVariable` take `SetLowerBound()` and `SetUpperBound()`.
   - Drive the search with `SetMaximumIterations(n)`, `Optimize()` and `GetBestSolution()`.
@@ -43,7 +44,7 @@ n/a (engine progress only: iteration, current and best objective, feasibility)
 
 ## Pitfalls
 - Planning 20 levers on the default OptQuest. It takes at most 7.
-- Shipping a client an exported model with an OptQuest optimizer: an unexpected licence cost. Genetic exports free.
+- Shipping a client an exported model: since 8.9.10 the standalone export is a paid option for every model, and an OptQuest optimizer inside it has its own licence cost (G14).
 - Choosing Genetic and then expecting "Varying number of replications". Genetic does not support it.
 - A KPI left as a plain function or variable. The Cloud optimizer cannot see it.
 - Expecting Cloud to run a custom optimizer. Cloud receives the simulation model, not your custom experiment, so a custom optimizer runs locally (the presenter's understanding; unverified).

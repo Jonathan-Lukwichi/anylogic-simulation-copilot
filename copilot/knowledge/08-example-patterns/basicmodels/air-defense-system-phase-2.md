@@ -3,6 +3,11 @@
 - **Paradigm:** ABM (Agent-Based Modeling)
 - **Problem it solves:** Simulates autonomous bomber agents attacking a set of defended buildings inside a protected zone, with each bomber guided by an internal statechart that drives spatial movement toward a target and then retreat.
 
+> **Verified corrections (2026-10-01).** Checked against the shipped 8.9.10 example `.alp` and the tutorial text (AnyLogic Help tutorials, *AnyLogic in 3 Days*). Where they differ from the text below, these win.
+> - Bomber speed is 600 km/h, set as the population's *Initial speed* (Help 8.9.10 *Movement in continuous space*). `moveTo(x, y, z)`'s third argument is Z, so `moveTo(target.getX(), target.getY(), 80)` makes the bomber descend to 80 m — it is not a speed.
+> - The mission event's first occurrence is at t = 0 and its recurrence is `uniform(5, 12)` s; the 1-minute Timeout and Rate values in the file belong to other trigger modes and are unused.
+> - 1 px = 1 m, not 10 m.
+
 ## Block chain
 Three custom agent types interact inside a continuous 2-D space (500 x 500 m, scale 1 px = 10 m):
 

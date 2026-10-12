@@ -3,6 +3,11 @@
 - **Paradigm:** ABM (Agent-Based Modeling)
 - **Problem it solves:** Simulate an aerial attack-and-defense scenario in which autonomous bomber and bomb agents pursue building targets while a defense system attempts to intercept them — modelling spatial movement, message passing, and cascading destruction across a 2D/3D environment.
 
+> **Verified corrections (2026-10-01).** Checked against the shipped 8.9.10 example `.alp` and the tutorial text (AnyLogic Help tutorials, *AnyLogic in 3 Days*). Where they differ from the text below, these win.
+> - The bomb's hit transition sets `target.destroyed = true;` directly and sends no message; the building's *On message received* also sets the flag, but nothing sends to it. There is no `deliver("You are destroyed", target)`.
+> - Bombers fly at 600 km/h and bombs at 400 km/h (not 10 m/s).
+> - The mission event sends **one** bomber per occurrence, chosen by a random-pick loop — not one per unassigned building.
+
 ## Block chain
 There are no Process Modeling library blocks (Source/Sink/Queue/Service) in this model. Instead, three custom agent populations interact directly:
 

@@ -40,7 +40,7 @@ The webinar shows none. Suggested:
 - `crane.getUtilization()`.
 - Crane cycle time, from entering MoveByCrane to exiting it.
 - The queue in front of MoveByCrane.
-- `mtbf()` / `mttr()` once a Downtime block is attached. This works for jib cranes; in 8.9 overhead cranes only offer `fail()` / `repair()`.
+- `mtbf()` / `mttr()` once a Downtime block is attached — for jib cranes and, since 8.9.1, overhead cranes too (corrected 2026-10-01; gotcha G43). Seize a crane explicitly (`SeizeCrane` … `ReleaseCrane`) when it must **hold** the load while people work under the hook; its utilisation then includes the holding time (8.9.10 *SeizeCrane and ReleaseCrane* example).
 
 ## Pitfalls
 - **Blocked zone:** if the jib's initial angle lies inside the zone when you enable it, the crane cannot move and the run fails (Help 8.9).

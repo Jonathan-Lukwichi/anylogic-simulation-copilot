@@ -7,14 +7,14 @@
 A single **StockVariable** (`Output_PerceivedValueOfInput`) accumulates over time.  
 An **AuxVariable** computes the `Error` as the gap between the exogenous reported input and the current perceived value.  
 A **Flow** feeds into the stock at the rate `Error / AdjustmentTime`, closing the feedback loop: the larger the gap, the faster perception adjusts.  
-The exogenous `Input_ReportedValueOfVariable_X_` is driven by `normal(20, 200, 100, 25)` — a normally distributed signal with seed 20, max 200, mean 100, and standard deviation 25.
+The exogenous `Input_ReportedValueOfVariable_X_` is driven by `normal(20, 200, 100, 25)` — the truncated form `normal(min, max, shift, stretch)`: a normal with mean 100 and standard deviation 25, bounded to [20, 200] (Help 8.9.10 *normal (truncated)*; corrected 2026-10-01 — the 20 is the minimum, not a seed; the Vensim import dropped the seed argument).
 
 ## Resources
 n/a — pure equation-based SD; no agents, queues, or resource pools.
 
 ## Key settings worth copying
 - **Smoothing formula:** `Flow = (Reported − Perceived) / AdjustmentTime` — the canonical first-order lag
-- **Input distribution:** `normal(seed, max, mean, std) = normal(20, 200, 100, 25)` for a bounded noisy signal
+- **Input distribution:** `normal(min, max, shift, stretch) = normal(20, 200, 100, 25)` for a bounded noisy signal (gotcha G66)
 - **Time unit:** Day
 - **ODE solver:** Euler (primary); RK45+Newton available for stiff/mixed systems
 - **AdjustmentTime** is a plain `PlainVariable` (constant), making it easy to expose as a slider for sensitivity analysis

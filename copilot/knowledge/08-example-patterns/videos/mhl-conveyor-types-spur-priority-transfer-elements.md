@@ -61,3 +61,6 @@ Blocking, singulation and item turning then emerge without custom code.
   - `videos/mhl-convey-routing-offsets-leave-on-exit.md`
   - `basicmodels/conveyor-singulator.md`
   - `basicmodels/item-flow-control-on-a-reversible-conveyor-spur.md`
+
+## Additions (8.9.10 review, 2026-10-01)
+- Turn station: the rotation angle can be given in `TURN` units, so the process time is turns ÷ rpm (the 8.9.10 *Pallet Packing Line* wraps a pallet for 4 turns at 6 rpm ≈ 40 s); its edge actions (*On trailing edge enter*, *On leading edge exit*, *On trailing edge exit*) can message the item's statechart or toggle a scanner light. `set_rotationSpeed(x)` takes rpm (gotcha G61).

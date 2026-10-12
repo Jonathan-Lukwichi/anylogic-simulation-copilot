@@ -3,6 +3,9 @@
 - **Paradigm:** DES
 - **Problem it solves:** Models a warehouse/manufacturing job shop where pallets move between storage racks and processing stations using forklift trucks as material-handling resources.
 
+> **Verified corrections (2026-10-01).** Checked against the shipped 8.9.10 example `.alp` and the tutorial text (AnyLogic Help tutorials, *AnyLogic in 3 Days*). Where they differ from the text below, these win.
+> - There is no second Retrieve and no `StorageDescriptor.cellCapacity` knob. The storage is Storage markup: back-to-back, 2 shelves, bays calculated from dimensions, network made with *Create storage network* (pp. 139–142).
+
 ## Block chain
 Jobs (pallets) arrive at a Source with a fixed interarrival time of 5 minutes. They are placed into a rack-based Store block. A Retrieve block pulls them out when a forklift becomes available, and a Delay block represents the processing or transport time. A second Retrieve handles the return leg. Processed items exit through a Sink.
 

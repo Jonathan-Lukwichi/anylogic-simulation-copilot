@@ -59,3 +59,9 @@ Check the result with the grid on *before* adding textures and lights, and add l
   - `videos/flowchart-block-animation-binding.md`: make agents appear at all.
   - `videos/per-agent-3d-material-color.md`: agent colours.
   - `videos/spiral-conveyor-per-point-z.md`: per-point Z.
+
+## Additions (8.9.10 review, 2026-10-01)
+- 2D draw order does not carry into 3D: flat shapes at the same Z interlace (flicker), so give stacked flat shapes slightly different Z values, e.g. 0, 0.1, 0.2 (Big Book ch. 12 p. 9).
+- In 8.9.10 a group shown in 3D may not contain 2D-only shapes (curve, rounded rectangle, anything set to 2D only); the Problems view reports it (Help *Group*). The Big Book's "they just become invisible" is outdated.
+- Light colour filters object colour channel by channel — a red light hides a blue object — so keep lights white or grey when colour carries meaning (Help *Light*).
+- Imported 3D objects: *Internal lights* = Off / Illuminate the object / Illuminate globally, plus *Ignore scene lights* (Help *3D object*). Background, grid and skybox are shared by all 3D windows of an agent type (Help *3D window*). The Big Book caps a scene at 6 lights, counting lights inside embedded agents — not restated in Help 8.9.10 *(unverified)*.

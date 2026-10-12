@@ -3,6 +3,9 @@
 - **Paradigm:** SD (System Dynamics)
 - **Problem it solves:** Models how a new product spreads through a market via both advertising-driven and word-of-mouth adoption, while accounting for product obsolescence and replacement demand.
 
+> **Verified corrections (2026-10-01).** Checked against the shipped 8.9.10 example `.alp` and the tutorial text (AnyLogic Help tutorials, *AnyLogic in 3 Days*). Where they differ from the text below, these win.
+> - "dt = 0.1 year" is the recurrence of the auto-created datasets (Main → Advanced), not the solver step; the 8.9.10 model integrates with Euler at a fixed step of 0.001.
+
 ## Block chain
 Two stocks drive the model: `PotentialAdopters` and `Adopters`. A single `AdoptionRate` flow moves people from potential to actual adopters; it is the sum of two auxiliary variables — `AdoptionFromAd` (advertising channel: PotentialAdopters × AdEffectiveness) and `AdoptionFromWOM` (word-of-mouth channel: Adopters × ContactRate × AdoptionFraction × PotentialAdopters / TotalPopulation). A `DiscardRate` flow, computed as `delay(AdoptionRate, ProductLifeTime)`, drains the Adopters stock after each unit's useful life expires, creating a recycling pulse of demand back into the system (the Balancing "Market Saturation" feedback loop). The causal diagram also labels a Reinforcing "Word of Mouth" loop linking Adopters back into WOM adoption.
 

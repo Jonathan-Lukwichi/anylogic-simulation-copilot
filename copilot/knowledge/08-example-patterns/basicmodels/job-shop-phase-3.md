@@ -3,6 +3,10 @@
 - **Paradigm:** DES
 - **Problem it solves:** Models a warehouse/manufacturing job shop where pallets arrive, are stored in a rack, processed at a workstation, then retrieved and dispatched — with forklift trucks handling all material movement.
 
+> **Verified corrections (2026-10-01).** Checked against the shipped 8.9.10 example `.alp` and the tutorial text (AnyLogic Help tutorials, *AnyLogic in 3 Days*). Where they differ from the text below, these win.
+> - These are **enum constants of block options, not parameters or features**: "two parallel store-retrieve-delay chains", "storage capacity 100 units per Store block", "resource pool size exposed as parameter `RESOURCE_PML`", "Pallet carries `LOCATION_NODE` parameter", "overridable via `INTERARRIVAL_TIME` parameter".
+> - Phase 3 only adds 3D (p. 161 on): camera, 3D window *Limited to Z above 0*, walls, the Pallet material item type, and *Occupied cells animation* = agent animation. The other mode, *color indication (fast)*, hides item shapes and fills each cell with the item colour (set with `agent.setColor()`; Help 8.9.10 *Storage*).
+
 ## Block chain
 Pallets enter through a Source with a fixed interarrival time (5 minutes). They are carried by a forklift to a Store block (rack storage). When a job is ready, a Retrieve block pulls the pallet from storage and routes it to a Delay block representing processing time drawn from triangular(15, 20, 30) minutes. After processing a second Retrieve/Delay stage handles outbound movement, and pallets exit through a Sink. Two parallel store-retrieve-delay chains handle inbound and outbound material flows independently.
 

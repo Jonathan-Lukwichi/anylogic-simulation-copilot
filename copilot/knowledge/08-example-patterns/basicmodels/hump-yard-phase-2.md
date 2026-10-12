@@ -3,6 +3,10 @@
 - **Paradigm:** DES
 - **Problem it solves:** Models a railway hump yard where inbound trains are broken apart and their cars sorted and re-assembled into outbound trains, capturing the sequenced decouple-sort-couple workflow under timed movement constraints.
 
+> **Verified corrections (2026-10-01).** Checked against the shipped 8.9.10 example `.alp` and the tutorial text (AnyLogic Help tutorials, *AnyLogic in 3 Days*). Where they differ from the text below, these win.
+> - This phase runs only the locomotive run-around: TrainDecouple sends the loco out of `outDecoupled` → to `stopLineHump` → *Backward* to `stopLineEntry` with *Route should not contain* `{trackArrival}` → forward to `stopLineArrival`, touching the cars (`outHit`) → TrainCouple → push to the hump at cruise 5 m/s → Delay 15 s → TrainDispose. The "car population replicated 100 times" is not in the model; sorting arrives only in phase 4.
+> - Help 8.9.10 names the TrainMoveTo speed settings *Start options* / *Finish options* (Continue at current speed, Accelerate/decelerate to cruise speed, Accelerate if condition is true — `ACCELERATE_NO / _YES / _CONDITION`), not "accelerate/decelerate condition flags".
+
 ## Block chain
 Inbound trains arrive via **TrainSource** (one train every 15 minutes). Each train moves to a receiving track using **TrainMoveTo**, then is split into individual cars or cuts via **TrainDecouple**. The freed cars roll over the hump and are directed to classification tracks by additional **TrainMoveTo** blocks governed by accelerate/decelerate conditions. Cars sit in short **Delay** blocks (15 seconds) representing coupling dwell time before being joined into new outbound trains with **TrainCouple**. The completed outbound train then makes a final **TrainMoveTo** to a departure track and exits through **TrainDispose**.
 

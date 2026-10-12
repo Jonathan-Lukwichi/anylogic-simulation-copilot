@@ -12,13 +12,13 @@ A 100 × 100 grid of `Cell` agents is instantiated at startup. Each cell holds a
 A `toggleState()` method allows interactive click-to-flip during runtime.
 
 ## Resources
-No queues, pools, or capacities — the only shared resource is the neighbour network topology (small-world connections, fraction 0.95, range 50 units, M = 10).
+No queues, pools, or capacities. Neighbours come from a **discrete space with the Moore neighbourhood** (8 cells), copied once into each cell's `neighbors` link from `getNeighbors()` at startup; the network type is User-defined, so no standard network is built (corrected 2026-10-01 from the 8.9.10 `.alp`).
 
 ## Key settings worth copying
 - Grid: 500 × 500 px canvas, 100 columns × 100 rows → 10 000 cells
 - Time unit: Day; step size: 1 Day; start time: 0
 - Initial density: `randomTrue(0.1)` — 10 % alive at t = 0
-- Neighbour connections: `NeighborLinkFraction = 0.95`, `ConnectionsRange = 50`, `ConnectionsPerAgent = 2`, `M = 10` (small-world wiring)
+- Neighbours: discrete space, Moore neighbourhood, *Enable synchronous steps* on. The small-world values an earlier version listed (fraction 0.95, range 50, 2 per agent, M = 10) are unused environment defaults.
 - `canvasScale = 5`, `agentSize = 4` for readable cell rendering
 
 ## KPIs instrumented

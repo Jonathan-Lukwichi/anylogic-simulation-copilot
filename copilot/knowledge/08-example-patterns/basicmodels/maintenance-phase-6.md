@@ -3,6 +3,10 @@
 - **Paradigm:** Hybrid (ABM + statecharts)
 - **Problem it solves:** Coordinating multi-modal maintenance logistics for a fleet of wind turbines spread across a geographic area, where repair crews must travel to assets using either road trucks or helicopters depending on request type.
 
+> **Verified corrections (2026-10-01).** Checked against the shipped 8.9.10 example `.alp` and the tutorial text (AnyLogic Help tutorials, *AnyLogic in 3 Days*). Where they differ from the text below, these win.
+> - The scheduled service is a cyclic event per turbine (First occurrence `uniform(0, 14)` **days**, Recurrence `serviceTimeout` = 2 weeks, action `statechart.receiveMessage("scheduled")`) — not a rate transition.
+> - `Failure` calls `sendRequest(AVIA)` (helicopter, emergency) and `ScheduledService` calls `sendRequest(AUTO)` (truck, planned) — not "ground / aerial breakdown".
+
 ## Block chain
 The model maintains a population of **Turbine** agents and a **Maintenance Centre (MC)** agent. Each turbine runs its own statechart with an `Operating` superstate that contains two sub-states: normal running and `ScheduledService`. A rate-triggered transition fires periodically to initiate a breakdown or scheduled service; the turbine then creates a `ServiceRequest` object tagged with either `AUTO` (road) or `AVIA` (helicopter) and sends it to the MC.
 

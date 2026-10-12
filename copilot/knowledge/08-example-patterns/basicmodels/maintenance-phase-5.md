@@ -3,6 +3,9 @@
 - **Paradigm:** ABM / Hybrid (agent-based machines + discrete-event service logistics)
 - **Problem it solves:** Scheduling preventive and corrective maintenance for a fleet of wind turbines dispersed across a geographic area, dispatching either trucks or helicopters depending on access type.
 
+> **Verified corrections (2026-10-01).** Checked against the shipped 8.9.10 example `.alp` and the tutorial text (AnyLogic Help tutorials, *AnyLogic in 3 Days*). Where they differ from the text below, these win.
+> - The scheduled service is a cyclic event per turbine with First occurrence `uniform(0, 14)` **days** and Recurrence `serviceTimeout` (2 weeks), whose action is `statechart.receiveMessage("scheduled")` — not `uniform(0, 14)` hours.
+
 ## Block chain
 Each Turbine agent hosts a statechart that governs its lifecycle: an operating state transitions to a broken-down state at a rate driven by 1/MTTF (mean time to failure). On breakdown the turbine raises a ServiceRequest flagged as AUTO (truck) or AVIA (helicopter). The Maintenance Center (MC) agent holds two queues — autoRequests and aviaRequests — and a findTransport() method that iterates over the truck or helicopter fleet to find an idle Transport agent. The chosen Transport's own statechart moves it from its base to the turbine location (MovingToMC state), performs the repair, then returns to base. A separate scheduled-maintenance trigger fires on a uniform(0, 14)-hour interval and sends a "scheduled" message into the turbine's statechart, initiating planned service before failure occurs.
 

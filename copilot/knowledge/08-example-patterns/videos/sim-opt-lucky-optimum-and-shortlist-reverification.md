@@ -46,3 +46,7 @@ Re-verification is standard sim-opt practice. It was not shown in the webinar.
 - Any optimization of a model with random inputs.
 - When a user shows an optimizer result from single runs, or a "best" plan sitting right on a requirement bound.
 - Before a recommendation leaves Phase 6.
+
+## Additions (8.9.10 review, 2026-10-01)
+- The shortlist can be pulled automatically (OptQuest only; Help 8.9.10 *Optimization experiment functions*): in *After experiment* loop k = 1..5 — `selectNthBestSolution(k);` then `isSelectedNthBestSolutionFeasible()`, `getSelectedNthBestObjectiveValue()` and `getSelectedNthBestParamValue(v)`. The variable handles are generated as `_oqvar_<Parameter>` (seen in the default UI of the Big Book's Field Service Phase 6; not documented in Help).
+- With few replications, compute the half-width yourself: `meanConfidence()` reads its t value one degree of freedom too high and is 1.5× too narrow at n = 3 (gotcha G67).

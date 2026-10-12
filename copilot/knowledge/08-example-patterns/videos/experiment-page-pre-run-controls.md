@@ -50,3 +50,8 @@ Split the knobs by when the model reads them: structure before the run (experime
 - A demo, supervisor or client should "choose the number of X" or "pick the scenario" before pressing Run.
 - "I moved the slider and the population didn't change."
 - A deliverable that runs both on the desktop and in Cloud: configure each lever's Value editor first.
+
+## Additions (8.9.10 review, 2026-10-01)
+- `slider.setValue(v)` snaps the value to the slider's range and step, with a Console warning, and a linked parameter then receives the snapped value — the slider's range silently bounds the parameter (Help 8.9.10 *Slider*). Two-way sync recipe: `bigbook/controls-link-direction-sync-and-replicated-controls.md`; gotcha G114.
+- Paired min/max sliders: each slider's Action pushes its partner back when they would cross, e.g. `if (LatencyMax < LatencyMin) sliderLatencyMin.setValue(LatencyMax, true);` — `setValue(value, callAction)` runs the partner's Action when `callAction` is true (Help *Slider*; three-method *Epidemic* model). That this also updates the linked parameter is relied on but not stated in Help.
+- A Run button that also jumps to Main: `if (getState() == IDLE) run(); getEngine().getExperimentHost().setPresentable(getEngine().getRoot());` with the label `getState() == IDLE ? "Run" : "Show Main"` (8.9.10 model *Click-Sensitive Icon of Active Object*; API not in Help — *unverified* beyond that model).

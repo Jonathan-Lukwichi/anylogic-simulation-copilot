@@ -3,6 +3,11 @@
 - **Paradigm:** DES
 - **Problem it solves:** Models a multi-channel bank with two service streams (tellers and a self-service ATM path), probabilistic routing, and a shared teller resource pool to analyse queue build-up and staff utilisation.
 
+> **Verified corrections (2026-10-01).** Checked against the shipped 8.9.10 example `.alp` and the tutorial text (AnyLogic Help tutorials, *AnyLogic in 3 Days*). Where they differ from the text below, these win.
+> - There is one SelectOutput (probability 0.5, the default), not a second one downstream.
+> - `choiceIsVolatile = true` is the stochastic/volatile flag of gotcha G6; it is not what makes the split editable at runtime.
+> - There is no customer population pre-allocated to 100 — the Source creates customers — and no time-in-system statistic yet (phase 4).
+
 ## Block chain
 Customers arrive at a fixed rate and immediately hit a **SelectOutput** router that probabilistically splits them between two lanes. One lane leads to a waiting **Queue** then into a **Service** block backed by the shared teller **ResourcePool**; the other lane routes customers to a self-service area modelled with a standalone **Delay**. A second **SelectOutput** downstream handles any further branching (e.g. re-join or exit). Both lanes eventually drain into a **Sink**. A separate **Delay** block (with triangular duration) represents the ATM transaction time, and the teller **Service** block uses its own triangular service-time distribution. The entity type flowing through the network is a **Customer** agent.
 

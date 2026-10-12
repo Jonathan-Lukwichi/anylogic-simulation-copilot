@@ -14,7 +14,7 @@ n/a — pure compartmental SD model; no agent populations or resource pools.
 - **Contact rate ramp:** `ContactRateC = InitialContactRate * ramp(ContactRateRampSlope, 1, 5500)` — a simple built-in ramp function lets you dial how fast social mixing grows.
 - **Infection rate formula:** `ContactRateC * InfectivityI * S * I / N` — standard frequency-dependent transmission.
 - **Recovery rate formula:** `I / AverageDurationOfIllnessD` — mean infectious period directly sets the drain rate.
-- **Periodic seeding:** `(int)(time()/50) == time()/50 ? InfectiousAdded/TIME_STEP : 0` — pulse injection every 50 days prevents stochastic extinction.
+- **Periodic seeding:** `(int)(time()/50) == time()/50 ? InfectiousAdded/TIME_STEP : 0` — pulse injection every 50 days prevents stochastic extinction. The idiom needs `time()` to land exactly on multiples of 50 and the Euler method; with RK4 or a step such as 0.1 the pulse can be missed or mis-sized — compare with a tolerance, or add the amount from a cyclic event (gotcha G83).
 - **Converted from Vensim** (SIRMODEL1.mdl) — demonstrates AnyLogic's import path for legacy SD models.
 
 ## KPIs instrumented
