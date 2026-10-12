@@ -14,7 +14,7 @@ import sys
 
 ROOT = Path(__file__).resolve().parent.parent
 PATTERNS = ROOT / "knowledge" / "08-example-patterns"
-SUBFOLDERS = ["basicmodels", "models", "sdmodels", "videos"]
+SUBFOLDERS = ["basicmodels", "models", "sdmodels", "bigbookmodels", "bigbook", "videos"]
 SKIP = {"README.md"}
 
 TITLE_RE = re.compile(r"^#\s*Pattern card\s*[—\-:]\s*(.+?)\s*$", re.M)
@@ -61,6 +61,8 @@ def main() -> int:
         "job-shop, bass-diffusion) may appear in more than one folder at different depth.",
         "`videos/` = techniques distilled from AnyLogic YouTube how-tos and webinars (only what",
         "the KB did not already hold; each card cites its video).",
+        "`bigbookmodels/` = example models from *The Big Book of Simulation Modeling*; `bigbook/` =",
+        "techniques distilled from the Big Book chapters themselves.",
         "",
     ]
 
