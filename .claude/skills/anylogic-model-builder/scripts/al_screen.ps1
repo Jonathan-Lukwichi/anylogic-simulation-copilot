@@ -1,4 +1,4 @@
-# al_screen.ps1 - see and drive AnyLogic on this PC (Windows). Safety rules built in:
+﻿# al_screen.ps1 - see and drive AnyLogic on this PC (Windows). Safety rules built in:
 #  * mouse/keyboard commands act ONLY while the foreground window belongs to AnyLogic (the IDE, or a model
 #    window "<model> : Simulation"); otherwise nothing happens and the script exits 2 - so the user can stop the
 #    agent at any time just by clicking another window;
@@ -77,7 +77,7 @@ switch ($Cmd) {
     $which = if ($A2) { $A2 } else { 'ide' }
     $p = Find-Target $which
     if (-not $p) { "no $which window found"; exit 3 }
-    $crop = if ($which -eq 'model' -and $p.ProcessName -match 'msedge|chrome|firefox|brave|opera') { 110 } else { 0 }
+    $crop = if ($which -eq 'model' -and $p.MainWindowTitle -match 'Microsoft.?Edge|Google Chrome|Mozilla Firefox|Brave|Opera') { 110 } else { 0 }
     $bmp = [ALWin]::Capture($p.MainWindowHandle)
     $s = Save-Scaled $bmp $A1 $crop 1600
     "saved $A1 from '$($p.MainWindowTitle)' [$($p.ProcessName)] window $($bmp.Width)x$($bmp.Height), top $crop px cropped, scale $s"
@@ -107,8 +107,10 @@ switch ($Cmd) {
     if ($d.W -lt 50 -or $d.H -lt 50) { "STOP: active AnyLogic window too small ($($d.W)x$($d.H)) - use 'front' first"; exit 4 }
     $bmp = New-Object System.Drawing.Bitmap $d.W, $d.H
     [System.Drawing.Graphics]::FromImage($bmp).CopyFromScreen($d.R.Left, $d.R.Top, 0, 0, (New-Object System.Drawing.Size $d.W, $d.H))
-    $s = Save-Scaled $bmp $A1 0 1600
-    "saved $A1 ; screenX = $($d.R.Left) + imgX / $s ; screenY = $($d.R.Top) + imgY / $s"
+    # a browser showing a model: crop the tab strip and address bar (the user's other tabs stay private)
+    $crop = if ($d.Title -match 'Microsoft.?Edge|Google Chrome|Mozilla Firefox|Brave|Opera') { 110 } else { 0 }
+    $s = Save-Scaled $bmp $A1 $crop 1600
+    "saved $A1 ; screenX = $($d.R.Left) + imgX / $s ; screenY = $($d.R.Top + $crop) + imgY / $s"
   }
   'click' { [ALWin]::SetCursorPos([int]$A1, [int]$A2) | Out-Null; Start-Sleep -Milliseconds 120; Btn 0x2 0x4; "clicked $A1,$A2" }
   'dbl'   { [ALWin]::SetCursorPos([int]$A1, [int]$A2) | Out-Null; Start-Sleep -Milliseconds 120; Btn 0x2 0x4; Start-Sleep -Milliseconds 90; Btn 0x2 0x4; "double-clicked $A1,$A2" }
@@ -122,3 +124,4 @@ switch ($Cmd) {
   'keys'  { [System.Windows.Forms.SendKeys]::SendWait($A1); "sent keys $A1" }
   default { "unknown command '$Cmd' - see the header of this script" ; exit 1 }
 }
+

@@ -454,9 +454,10 @@ class AlpModel:
 <ShowLegend>true</ShowLegend>"""
         return top, mid
 
-    def time_plot(self, name, x, y, w, h, items, window, window_units="HOUR", every=5):
-        """items: [(title, internal dataset name, Java value expression, colour)] sampled every `every` time units."""
-        top, mid = self._chart_parts(x, y, w, h, (50, 15, w - 200, h - 45), "EAST", 140)
+    def time_plot(self, name, x, y, w, h, items, window, window_units="HOUR", every=5, area=None, legend=("EAST", 140)):
+        """items: [(title, internal dataset name, Java value expression, colour)] sampled every `every` time units.
+        area: (x offset, y offset, width, height) of the plot area inside the chart; legend: (place, size)."""
+        top, mid = self._chart_parts(x, y, w, h, area or (50, 15, w - 200, h - 45), *legend)
         ds = "\n".join(f"""<DatasetExpression>
 <Title>{cd(title)}</Title>
 <Id>{self.nid()}</Id>
@@ -488,9 +489,9 @@ class AlpModel:
 <LabelFormat>MODEL_TIME_UNITS</LabelFormat>
 </TimePlot>"""
 
-    def bar_chart(self, name, x, y, w, h, items, every=5):
-        """items: [(title, Java value expression, colour)]."""
-        top, mid = self._chart_parts(x, y, w, h, (40, 20, 160, h - 50), "EAST", 200)
+    def bar_chart(self, name, x, y, w, h, items, every=5, area=None, legend=("EAST", 200)):
+        """items: [(title, Java value expression, colour)]. area/legend as in time_plot."""
+        top, mid = self._chart_parts(x, y, w, h, area or (40, 20, 160, h - 50), *legend)
         di = "\n".join(f"""<DataItem>
 <Id>{self.nid()}</Id>
 <Expression>{cd(expr)}</Expression>
