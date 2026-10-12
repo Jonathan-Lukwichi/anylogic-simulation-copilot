@@ -51,6 +51,11 @@ Never propose blocks before the modeling approach is settled. First run a short 
 4. What are the KPIs? If the aim is to *find the best setting*: ONE objective; limits on the
    levers themselves are optimization **Constraints**, limits on simulated results are
    **Requirements**; must a target hold on average or nearly always?
+Before recommending, run the six checks in `workflow/phase-0-framing.md` (abstraction line,
+feedback loops, shape of time-in-state, the deciding unit, demand sources with their own history,
+regime-changing assumptions). For hybrid wiring, use the per-direction catalogue
+`knowledge/08-example-patterns/bigbookmodels/multimethod-interface-catalogue.md`; an SD-driven arrival
+stream uses *Interarrival time*, not *Arrival rate*.
 Then RECOMMEND an approach WITH justification (grounded in Borshchev & Filippov; see
 knowledge/00-method-selection). Confirm with the user. Only then proceed to the build. Fuller
 framing guidance: `workflow/phase-0-framing.md`.
@@ -78,7 +83,7 @@ framing guidance: `workflow/phase-0-framing.md`.
   version when you cite it. Never invent block names or settings.
 - GROUND BEFORE YOU SIMULATE: consult **knowledge/INDEX.md** FIRST — it is the single grounding
   router (task → files), including the worked-example library (knowledge/08-example-patterns/INDEX.md,
-  250+ cards — the exact count is in its header). Follow the row that matches the task, open the
+  400+ cards — the exact count is in its header). Follow the row that matches the task, open the
   named files, and cite the specific file; never invent numbers.
 - DIVISION OF KNOWLEDGE (do not duplicate): the **method** (Phase 0 + Phases 1-6) lives in
   `workflow/`; **AnyLogic build/debug idioms** live in the skills (`.claude/skills/anylogic-*.md`)
@@ -88,20 +93,35 @@ framing guidance: `workflow/phase-0-framing.md`.
 - A symptom or error message from a build: check the quick-lookup table at the top of
   `knowledge/01-anylogic-core/anylogic-gotchas.md` (G1–G60, verified against the 8.9.9 Help) for a
   known cause first, then `anylogic-debug`.
+- Example models are evidence of what they *do*, not of what their description says — several
+  8.9.10 descriptions are stale. The Help itself misprints some names (gotcha G122): when Help and
+  code disagree, the library code (`javap`, the library's `member-search-index.js`) wins.
+- Version and edition gates: confirm the user's AnyLogic version and edition before prescribing
+  version-gated features (Downtime on MHL equipment 8.9.1, storage initial stock 8.9.5, tugger trains
+  and multiload transporters 8.9.9, `startDelivery()` 8.9.10) or Professional-only ones (Custom
+  experiments, including optimisation and calibration in code). Standalone export is a paid option
+  since 8.9.10. The RL experiment cannot run inside AnyLogic (export to Alpyne or Azure ML).
+- AnyLogic 8.9.10 ships its own AI Assistant (drafts PML skeletons, explains models; cannot edit
+  models or use statecharts or SD). When a user mentions it, position this co-pilot as the method,
+  verification and ABM/SD/hybrid layer around it (`knowledge/01-anylogic-core/README.md`).
 - Statistics: fit distributions properly (scipy.stats / fitdistrplus) and report a goodness-of-fit
   test (KS / Anderson-Darling). Do not eyeball. If no family passes, or the data are categorical or
   banded, use an AnyLogic Custom Distribution (empirical) and say it cannot generate values beyond
   the observed range.
 - Experiments: a fixed seed is for building, verification and demos only; KPIs come from
   independent replications. An optimizer's best value is biased optimistic — re-run the top few
-  plans with fresh replications before recommending one, and call it "best found".
+  plans with fresh replications before recommending one, and call it "best found". Compute small-n
+  confidence intervals with the exact t value — `meanConfidence()` is too narrow for n ≤ 4 (G67).
 - Optimization requests: first check that simulation-based optimization is the right tool
   (`knowledge/07-optimization/README.md`); name ONE objective; lever limits go in Constraints
   (checked before each run), result limits in Requirements (checked after each run, on the
   replication mean); flag engine limits (bundled OptQuest: 7 variables / 500 iterations per
   AnyLogic's 8.8.4 notes; Genetic has no such cap; Cloud optimizes with Genetic only).
 - AI/ML: integrate via the RL experiment + Alpyne (or Azure ML). To show efficiency, always frame
-  it as baseline vs ML-informed vs RL, comparing the same KPIs.
+  it as baseline vs ML-informed vs RL, comparing the same KPIs. Decide first whether the policy acts
+  once per episode (a configuration chooser — compare it with a plain optimization per context before
+  claiming RL adds value) or many times (a controller). The RL experiment defines observation, action,
+  configuration and stop condition; the reward lives in the Python wrapper.
 
 ## Behaviour
 - One clear approach recommendation with rationale, not a menu of five.

@@ -9,9 +9,10 @@
 |---|---|---|---|---|
 | 00 method-selection | Borshchev & Filippov — Reasons, Techniques, Tools | https://www.anylogic.com/resources/articles/from-system-dynamics-and-discrete-event-to-practical-agent-based-modeling-reasons-techniques-tools/ | download | Free, AnyLogic-hosted. The approach-choice paper. |
 | 01 anylogic-core | AnyLogic Help (block reference, RL, Alpyne) | https://anylogic.help/ | fetch-live | Version-specific; do not freeze. Blocks automated fetches (HTTP 403, seen 2026-09); fallback = the archived page `https://web.archive.org/web/2025id_/https://anylogic.help/<path>` fetched with `curl --compressed`. Prefer the offline Help below when an install is reachable. |
-| 01 anylogic-core | AnyLogic offline Help + Javadoc (ships with every install, PLE included) | `<install>\plugins\com.anylogic.ui_<version>\resources\help\en\` | local (install) | Exact to the installed version; ~2,700 HTML pages mirroring anylogic.help, engine Javadoc under `plugins\com.anylogic.engine_<version>\javadoc\`. How to search it: `knowledge/INDEX.md`. |
+| 01 anylogic-core | AnyLogic offline Help + Javadoc (ships with every install, PLE included) | `<install>\plugins\com.anylogic.ui_<version>\resources\help\en\` | local (install) | Exact to the installed version (8.9.10: 785 HTML pages among 3,504 files) mirroring anylogic.help, engine Javadoc under `plugins\com.anylogic.engine_<version>\javadoc\`. How to search it: `knowledge/INDEX.md`. |
 | 01 anylogic-core | AnyLogic in 3 Days (free PDF) | https://www.anylogic.com/resources/books/free-simulation-book-and-modeling-tutorials/ | download | Free. |
-| 01 anylogic-core | Big Book of Simulation Modeling (Borshchev) | https://www.anylogic.com/resources/books/ | download | Free chapters. Covers DES+ABM+SD. Single chapters resolve as direct PDFs, e.g. ch. 15 (randomness): https://www.anylogic.com/upload/books/new-big-book/15-randomness-in-anyLogic-models.pdf |
+| 01 anylogic-core | Big Book of Simulation Modeling (Borshchev) | https://www.anylogic.com/resources/books/ | download | Free chapters, one PDF each at `https://www.anylogic.com/upload/books/new-big-book/<nn>-<slug>.pdf` (e.g. ch. 15, randomness: https://www.anylogic.com/upload/books/new-big-book/15-randomness-in-anyLogic-models.pdf). 12 of the 16 free chapters were read for this KB (2026-09-30); techniques are distilled in `knowledge/08-example-patterns/bigbook/`. The PDFs are not redistributed here. Covers DES+ABM+SD. |
+| 01 anylogic-core | AnyLogic example models (ship with every install) | `C:\ProgramData\AnyLogic 8.9 <edition>\eclipse\plugins\com.anylogic.examples_<version>\` (`basicmodels`, `models`, `sdmodels`, `bigbookmodels`) | local (install) | Read the `.alp` XML in place; cite what a model does, not its description text. Distilled in `knowledge/08-example-patterns/`. |
 | 01 anylogic-core | Cloud model library (examples by industry) | https://cloud.anylogic.com/models | fetch-live | Dissect example models. |
 | 02 statistics | NIST/SEMATECH e-Handbook of Statistical Methods | https://www.itl.nist.gov/div898/handbook/ | download | Free. Distributions + goodness-of-fit. |
 | 02 statistics | fitdistrplus (R) | https://cran.r-project.org/package=fitdistrplus | fetch-live | MLE/MME + KS/AD/CvM fits. |
@@ -74,3 +75,22 @@ items were checked: 295 were new and added; 380 were already known and skipped.
 | pDpw9h09gss | Complete 2.5-hour ABM tutorial | **no card** — 94% identical to Parts 1–9; the remaining lines were reviewed and held nothing new |
 | HBd_dKNVrSU, 63V7dBGjb14, nKW8GG5og4U, QocfkYnwSYw, UgH7g5PhG90 | "Scenario 1" ABM market-competition series (Parts 1–5) | `abm-adoption-flow-counters-vs-state-counts`, `abm-wom-conversion-rate-vs-probability`, `abm-stock-gated-purchase-allocation-and-brand-tie` (G58–G60) |
 
+## AnyLogic 8.9.10 install distilled into the KB (2026-09-30 – 2026-10-01)
+
+Sources read: the 525 example models shipped with 8.9.10, the 72 tutorial pages of its offline Help,
+and 12 Big Book chapters. Fourteen batches checked every candidate fact against the KB, its PDF text
+and the 8.9.10 Help before anything was written (novelty gate). Raw inputs and per-batch ledgers stay
+local in `knowledge/.ingest/` (gitignored); only the own-words result is committed.
+
+| Result | Count |
+|---|---|
+| Candidate facts checked | 1,148 |
+| New, added | 476 |
+| Already in the KB, skipped | 563 |
+| General knowledge, skipped | 109 |
+| New cards | 136 (`basicmodels/` 76, `bigbook/` 22, `bigbookmodels/` 15, `models/` 15, `videos/` 7, `sdmodels/` 1) |
+| New gotchas | G61–G122; G3, G5, G16, G22 and G43 corrected; 23 more entries amended |
+
+Disputed facts were settled before merging: from the 8.9.10 Help, and where the Help was silent or
+wrong, from the 8.9.10 engine and library jars read with `javap` (for example the per-second internal
+unit of `Source.set_rate(x)` behind G5 and G61, and the t-table behind G67).

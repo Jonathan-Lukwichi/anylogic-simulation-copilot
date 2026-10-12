@@ -15,6 +15,20 @@ Manufacturing & warehouse DES. Job-shop tutorial, Cloud examples.
   deprecated since 8.9.5. Cards: `../08-example-patterns/videos/mhl-*.md` (Convey routing and
   offsets, conveyor types / spurs / merge priority / transfer elements, stations and re-assembly,
   sensors and breakdowns, AGV dispatch, crane reach and movement mode); traps G42–G45.
+- **Warehouse and intralogistics features are version-gated:** Downtime blocks on conveyors,
+  stations, jib and overhead cranes (8.9.1); TransporterFleet downtimes for charging and maintenance
+  (8.9.4); StorageSystem initial stock (8.9.5); stacker-crane AS/RS, tugger trains and multiload
+  transporters (8.9.9); `startDelivery()`, *Fastest* routing and custom *Route* code (8.9.10). Confirm
+  the user's version first. Start storage models partly filled to shorten the warm-up, and treat
+  slotting, delivery-start rules and charging strategies as experiment levers. Cards:
+  `../08-example-patterns/basicmodels/storage-with-initial-stock.md`, `slotting-policies-in-drive-in-storage.md`,
+  `stacker-crane-store.md`, `tugger-train.md`, `transporter-charging-system.md`,
+  `transportercontrol-overtaking.md`, `station-and-crane-maintenance.md`; traps G93–G97.
+- **Shared handlers and traffic:** a crane, robot or vehicle that both feeds and empties the same
+  stations needs two guards — downstream (unloading) tasks get the higher priority, and a restricted
+  area whose capacity equals the station capacity wraps "move in → process → move out"
+  (`basicmodels/movebycrane.md`, `basicmodels/processbyrobot.md`). Single-lane AGV corridors need
+  one-way paths or custom navigation (G96).
 - **Multi-floor facilities, lifts, AGVs:** `videos/multi-level-facility-lift-landings.md`; ramps and
   spirals: `videos/spiral-conveyor-per-point-z.md`.
 

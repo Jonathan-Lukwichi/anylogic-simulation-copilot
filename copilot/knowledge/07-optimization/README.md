@@ -3,8 +3,8 @@
 Simulation-based optimization (sim-opt) in AnyLogic: the Optimization experiment with the OptQuest or
 Genetic engine, Custom-experiment optimizers, and Cloud optimization. Exact field names: check the
 installed Help first, then anylogic.help (see `../INDEX.md`). Method cards live in
-`../08-example-patterns/videos/`; the traps are gotchas G8–G15 in
-`../01-anylogic-core/anylogic-gotchas.md`.
+`../08-example-patterns/videos/`; the traps are gotchas G8–G15, G67 (small-n intervals), G69
+(non-identifiable calibration) and G118 (custom experiments) in `../01-anylogic-core/anylogic-gotchas.md`.
 
 ## First: is sim-opt the right tool?
 Judge by how large the solution space is and how fast the answer is needed.
@@ -31,7 +31,15 @@ near-optimal **"best found"** answer — say so when reporting.
   replications before recommending one (G11). An optimum on a range edge means widen the range (G12).
 - Engine limits: bundled OptQuest ≤ 7 variables / 500 iterations per AnyLogic's 8.8.4 notes;
   Genetic (8.8.4+) has no such cap but uses a fixed replication count and a finite iteration count;
-  Cloud optimizes with Genetic only (G14).
+  Cloud optimizes with Genetic only (G14). Since 8.9.10 the standalone export is a paid option for
+  every model.
+- **Conditional levers:** when a lever matters only while a boolean policy is on, add the linear
+  constraint `x - M*b <= xMin` (with `M >= xMax - xMin`; booleans count as 0/1) so duplicate plans
+  are never run. **Count the grid first:** a few dozen plans → a full-factorial Parameter Variation
+  with replications beats an optimizer. Strip the model for search: chart-only statistics off — add a
+  PML Settings block with *Enable statistics by default* off and *Force statistics collection* only
+  on the blocks whose statistics feed KPIs (speed gain not measured). Card:
+  `../08-example-patterns/bigbook/optquest-conditional-lever-constraint-and-small-grids.md`.
 - **Two populations, one lever** (signal phases: cars vs pedestrians; shuttle dwell: waiting riders
   vs cycle time): minimise the primary KPI and cap the other as a Requirement; instrument both flows
   first (`models/traffic-light-phases-optimization.md`, `videos/traffic-light-gated-pedestrian-crossing.md`).
@@ -45,6 +53,25 @@ near-optimal **"best found"** answer — say so when reporting.
 - `dispatching-rule-as-optimizable-policy.md` — a sequencing rule as a lever, vs adding capacity.
 - `forecast-driven-staffing-optimization.md` — forecast → input file → optimizer with an output requirement.
 - `optimization-requirement-on-time-averaged-kpi.md` — requirement on a time-averaged KPI; setup checklist.
+
+## Calibration
+1. Keep the observed series in the model (a table function copied into a DataSet at startup with
+   `fillFrom`); objective `difference(outputDataSet, observed)` — the RMSE over the overlap, so make
+   the output dataset hold the whole run (G18).
+2. Check identifiability first: parameters that act only as a product or ratio cannot be separated by
+   any fit — fix one from independent data or calibrate the composite (G69).
+3. Stochastic models: a fixed number of replications per candidate; decide whether the *typical run*
+   (mean per-run misfit) or the *mean curve* (misfit of the replication-mean trajectory) should match
+   — they rank candidates differently. Re-verify the winner with many more replications.
+4. Report the fit with its decomposition (bias / variance / covariance shares, MAPE —
+   `../08-example-patterns/sdmodels/theil-fit-statistics.md`), not one RMSE, and show the spread of runs
+   around the data (`models/sir-agent-based-calibration.md`).
+5. On AnyLogic Cloud, expose the misfit as a scalar Output calculated on simulation end; Cloud
+   minimises Outputs with the Genetic engine only.
+
+Cards: `../08-example-patterns/bigbookmodels/epidemic-model-various-experiments.md`,
+`basicmodels/calibration-from-within-simulation.md`, `basicmodels/optimization-in-custom-experiment.md`
+(custom experiments: Professional edition).
 
 ## Default experiment ladder
 1. Named scenarios. 2. Parameter Variation with replications, to screen levers. 3. Optimization with

@@ -30,3 +30,6 @@ case-study/
 # Raw YouTube transcripts and the PDF text cache are the publishers' text: local only.
 copilot/knowledge/transcripts/
 copilot/knowledge/.pdf-text/
+
+# Ingestion inputs derived from the AnyLogic install (model digests, tutorial text) — local only.
+copilot/knowledge/.ingest/
