@@ -25,6 +25,10 @@ then guides the build, the statistics, and the AI/ML layer.
 - `../.claude/skills/youtube-transcript/` — Claude Code skill that pulls YouTube transcripts (used to
   distil AnyLogic videos into `knowledge/08-example-patterns/videos/`; raw transcripts stay local in
   the gitignored `knowledge/transcripts/`).
+- `../.claude/skills/anylogic-model-builder/` + `../.claude/agents/anylogic-model-builder.md` — Claude Code only,
+  on a Windows PC with AnyLogic installed: generate a complete `.alp` (flowchart, 2D layout, 3D view,
+  dashboard) from a written spec, open it, run it and verify it with evidence. Procedure:
+  `workflow/model-generation.md`; verified example: `examples/mini-ed-2d3d/`.
 
 ## Set it up (pick one runtime)
 1. **Claude Project (fastest):** create a Project, paste `INSTRUCTIONS.md` into the

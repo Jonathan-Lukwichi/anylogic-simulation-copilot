@@ -1,5 +1,10 @@
 # Phases 1-6 — the build (after Phase 0 is confirmed)
 
+> Two build paths share these phases. **A (default, any environment):** the co-pilot specifies, the user builds
+> in the AnyLogic IDE. **B (Claude Code on a PC with AnyLogic installed):** the co-pilot generates the `.alp`,
+> opens it, runs it and verifies it with evidence — `workflow/model-generation.md` and the
+> `anylogic-model-builder` skill. Phases 1–3 below are the spec for either path.
+
 1. **Decompose** — entities, resources, activities, routing logic.
    If the system spans more than one AnyLogic library (Pedestrian, Road Traffic, Rail, Material
    Handling, PML), **list every hand-off between libraries** — they do not sense each other (gotcha

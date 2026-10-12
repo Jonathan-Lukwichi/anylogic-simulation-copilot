@@ -33,3 +33,6 @@ copilot/knowledge/.pdf-text/
 
 # Ingestion inputs derived from the AnyLogic install (model digests, tutorial text) — local only.
 copilot/knowledge/.ingest/
+
+# anylogic-model-builder skill: templates rebuilt from each machine's AnyLogic install, compiled helpers
+.claude/skills/anylogic-model-builder/.cache/
