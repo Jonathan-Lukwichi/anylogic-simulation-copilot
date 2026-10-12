@@ -1,6 +1,6 @@
 ---
 name: anylogic-model-builder
-description: Generate a complete AnyLogic model file (.alp) — process flowchart, 2D floor plan, 3D view, dashboard and charts — from a written specification, then open, run and check it in AnyLogic on this Windows PC with evidence (screenshots, logs, thread dumps). Use when the user asks Claude Code to build, generate, run, demonstrate or check an AnyLogic simulation on their own machine (e.g. "build me a 2D/3D model", "make it run", "show me it working"). Not for chat-only environments, and not a replacement for Stage 0 intake on real projects.
+description: Generate a complete AnyLogic model file (.alp) — process flowchart, 2D floor plan, 3D view, dashboard and charts — from a written specification, then open, run and check it in AnyLogic on this Windows PC with evidence (screenshots, logs, thread dumps). Use when the user asks Claude Code to build, generate, run, demonstrate or check an AnyLogic simulation on their own machine (e.g. "build me a 2D/3D model", "make it run", "show me it working"). Not for chat-only environments, and not a replacement for the intake (`simulation-welcome`) on real projects.
 ---
 
 # AnyLogic model builder (generate → open → run → verify)
