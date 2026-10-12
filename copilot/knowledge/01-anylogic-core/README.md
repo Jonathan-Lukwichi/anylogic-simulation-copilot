@@ -4,7 +4,7 @@ AnyLogic block reference, PLE limits, tutorials, example models. Techniques from
 *Big Book of Simulation Modeling* chapters are distilled in `../08-example-patterns/bigbook/` (chapter
 links in SOURCES.md).
 
-- **Traps and error messages:** `anylogic-gotchas.md` — start from its quick-lookup table (G1–G122).
+- **Traps and error messages:** `anylogic-gotchas.md` — start from its quick-lookup table (G1–G125).
 - **Block fields / API, exact to the installed version:** the offline Help and Javadoc shipped with
   every AnyLogic install (location and how to search it: `../INDEX.md`). anylogic.help itself blocks
   automated fetches; an archived copy (`web.archive.org/web/2025id_/https://anylogic.help/<path>`,

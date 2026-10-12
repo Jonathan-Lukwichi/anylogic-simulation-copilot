@@ -37,11 +37,14 @@ n/a
 - **Run Configuration Inputs** (Help) accept only two kinds of element:
   - static parameters of the top-level agent, typed int, double, boolean, String, Date or a unit type;
   - files that the model references, that sit in the model folder and that use a relative path. Any other file is greyed out and blocks the export.
+- **Files read by code** travel with the model only if each is ticked *Resource is referenced from user code* (Projects view → Resources → file → Properties) and opened by a relative path; otherwise Cloud runs without them (Help 8.9.10 *File resources*; gotcha G123).
 - **Run Configuration Outputs** accept any Analysis-palette element on the top-level agent, plus files. Files work as outputs only in single-run Simulation experiments. The labels set here are what users and the API see.
 - **Other properties:** Top-level agent; Maximum available memory (heap for the model and the built-in DB); Model time stop; Animation stop and execution mode (virtual time, or real time with scale); zoom/pan and developer-panel toggles.
-- **Tiers** (Cloud 2.6.x Help, 2025–26):
-  - A subscription lifts the memory, output-file and run-time limits, allows external resources such as databases, and opens the full API.
-  - The Cloud optimizer is the genetic engine only. Without a subscription, optimization stops at 5 min, and the best run may not reproduce exactly.
+- **Tiers** (Help *AnyLogic Cloud options*, Cloud 2.8.5 as shipped with AnyLogic 8.9.10; updated 2026-10-01):
+  - Free account: upload models privately or publicly and share them; 2 GB RAM; run-time limits of 1 min for a single run without animation, 5 min for a run with animation, 30 min for a multi-run experiment and 5 min for an optimization; output files up to 32 MB.
+  - Subscription: no run-time limit, 16 GB RAM, 256 MB output files, external resources such as databases, and the Open Cloud API. Private Cloud: RAM and file size set by its own configuration.
+  - The Cloud optimizer is the genetic engine only, and its best run may not reproduce exactly.
+- **Export wizard** (Help 8.9.10 *Exporting a model to AnyLogic Cloud*): Run Configuration → *Export model to AnyLogic Cloud*, or File → Export → To AnyLogic Cloud; log in through the browser and click *Proceed*; choose *Create new model* or an existing model (which adds a version). *Include model source files* is ticked by default — untick it to keep your source private; the model is private unless *Provide public access to this model* is ticked. Desktop experiments are not transferred (create experiments in the web interface), the database log is not exported, and the model database is compacted. PLE can export (Help *Editions*).
 - **2026 naming.** The SaaS now appears as **AnyLogic Online** (anylogic.online), which also edits models in the browser. Private Cloud runs models but cannot edit them; its editions allow 16 (Lite), 64 (Pro) or unlimited (Enterprise) parallel runs. Check UI labels against current Help.
 
 ## KPIs instrumented

@@ -127,6 +127,9 @@ cause, the fix, and the reason. Append new ones as they come up during builds.
 | RL configuration ignored, or spaces rejected | G120 |
 | A trained RL policy acts nonsensically in the model | G121 |
 | A constant or property name from the Help won't compile | G122 |
+| A data file read by code is missing in Cloud or an exported model; results look like defaults | G123 |
+| F5 builds and starts the model, but no model window appears and nothing happens | G124 |
+| AnyLogic offers to restore an automatically saved copy, or edits made outside AnyLogic disappear | G125 |
 
 ---
 
@@ -1655,3 +1658,42 @@ experiment pages (G16).
 **Why:** the Help is the KB's first authority for exact names; these rows are the known exceptions.
 Cards: `basicmodels/slotting-policies-in-drive-in-storage`, `basicmodels/source-with-arrivals-from-database-table`,
 `basicmodels/tugger-train`, `basicmodels/mixtank`, `basicmodels/elevator-failure`.
+
+## G123 — Data files read by code are missing in Cloud (or an exported model), and the run quietly uses defaults
+**Cause (Help 8.9.10, *File resources*):** on export AnyLogic includes only the files that model elements
+reference. A file read only by Java code — `new FileReader("staff.csv")` — is left behind unless its
+*Resource is referenced from user code* box is ticked (Projects view → Resources → the file → Properties);
+an absolute path (`C:/Users/…`) cannot work on another machine at all. Loaders that catch the exception and
+only `traceln` it then carry on with empty data or built-in defaults, and nobody sees the console in Cloud.
+**Fix:** keep every data file in the model folder, open it by its bare file name (a relative path), tick
+*Resource is referenced from user code* for each one (it turns from grey to black under Resources), and
+stop the run with `error(...)` when a file is missing or empty. Files that qualify can then be listed as
+Run Configuration inputs, so Cloud users can replace them without a re-export (G39).
+**Why:** the model runs and produces numbers either way; only the inputs are wrong.
+Card: `videos/cloud-run-semantics-and-access`.
+
+## G124 — F5 builds and starts the model, but no model window appears and the run seems to do nothing
+**Cause (observed 2026-10-02, AnyLogic 8.9.10 PLE):** AnyLogic 8.9 runs each model in its own Java process,
+which serves the model's screen from a local web server (a random port) and shows it in AnyLogic's built-in
+browser (`chromium\chromium-win64\chrome.exe --app=…`). The engine starts only after that window connects;
+until then the "AnyLogic model execution thread" waits in `com.anylogic.engine.Experiment.waitFrontend()`.
+When AnyLogic itself was started from an automation or agent shell (here an AI coding agent's terminal), the
+built-in browser could not start, so every F5 built the model, started the model process and showed nothing.
+The workspace log (`~\.AnyLogicPLE\Workspace8.8\.metadata\.log`) shows "Generate build sources" and
+"Run model" and no error.
+**Fix:** start AnyLogic in the user's own session — Start menu, a double-click on the `.alp`, or from a script
+`explorer.exe "<model>.alp"`. A run that is already waiting starts as soon as its page is opened in any
+browser: `http://127.0.0.1:<port>/`, port from `Get-NetTCPConnection -OwningProcess <model javaw pid> -State
+Listen`. Diagnose with `jstack <pid>` from AnyLogic's `jre\bin` (look for `waitFrontend`). The
+`anylogic-model-builder` skill does all three: `al_run.ps1 open`, `status`, `window`.
+**Why:** it looks like broken model logic, and the model gets changed when nothing is wrong with it.
+
+## G125 — An `.alp.autosave` or the copy open in AnyLogic brings back an old version of a model edited outside AnyLogic
+**Cause (Help 8.9.10, *Automatic backup and recovery of models*):** while a model is open, AnyLogic saves it to
+`<model>.alp.autosave` in the model folder (every minute by default) and, after a crash, offers to *Replace Model
+with automatically saved copy*. A script, an agent or a merge tool that changes the `.alp` while the model is
+open leaves the old version in the autosave and in AnyLogic's open copy; saving that copy overwrites the edits.
+**Fix:** close the model in AnyLogic before changing or regenerating the file on disk, then reopen it. If
+AnyLogic offers to restore an autosave older than your external edits, choose *Discard autosave*; compare a
+stale autosave with the model before deleting it (it is not part of the model).
+**Why:** one click on *Replace*, or one save from the stale open copy, silently undoes the external edits.
